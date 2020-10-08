@@ -72,7 +72,7 @@ public class CustomerController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        doPost(request, response);
     }
 
     /**
@@ -86,6 +86,13 @@ public class CustomerController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        String base = "/jsp/";
+        String url = base + "home.jsp";
+        String action  = request.getParameter("action");
+        String category = request.getParameter("category");
+        String keyWord = request.getParameter("keyword");
+        
         processRequest(request, response);
     }
 
