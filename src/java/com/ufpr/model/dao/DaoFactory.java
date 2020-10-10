@@ -5,7 +5,7 @@
  */
 package com.ufpr.model.dao;
 
-import com.ufpr.db.DB;
+import com.ufpr.model.db.DB;
 import com.ufpr.model.dao.implement.CustomerDaoJDBC;
 import com.ufpr.model.dao.implement.ItemDaoJDBC;
 import com.ufpr.model.dao.implement.OrderDaoJDBC;

@@ -5,8 +5,8 @@
  */
 package com.ufpr.model.dao.implement;
 
-import com.ufpr.db.DB;
-import com.ufpr.db.DbException;
+import com.ufpr.model.db.DB;
+import com.ufpr.model.db.DbException;
 import com.ufpr.model.dao.CustomerDao;
 import com.ufpr.model.entities.Customer;
 import java.sql.Connection;

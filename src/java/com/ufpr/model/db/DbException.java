@@ -3,17 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ufpr.db;
+package com.ufpr.model.db;
 
 /**
  *
  * @author Jordi.Santos
  */
-public class DbIntegrityException extends RuntimeException {
-
+public class DbException extends RuntimeException {
+    
 	private static final long serialVersionUID = 1L;
-	
-	public DbIntegrityException(String msg) {
-		super(msg);
-	}
+    
+    public DbException (String msg){
+        super(msg);
+    }
+
 }

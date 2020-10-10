@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ufpr.controller;
+package com.ufpr.control;
 
 import com.ufpr.model.dao.CustomerDao;
 import com.ufpr.model.dao.implement.CustomerDaoJDBC;
