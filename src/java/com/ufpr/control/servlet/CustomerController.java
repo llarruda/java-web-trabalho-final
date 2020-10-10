@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ufpr.control;
+package com.ufpr.control.servlet;
 
 import com.ufpr.model.dao.CustomerDao;
 import com.ufpr.model.dao.implement.CustomerDaoJDBC;
@@ -25,16 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class CustomerController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         CustomerDao customerDao = new CustomerDaoJDBC();

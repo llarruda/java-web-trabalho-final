@@ -7,6 +7,7 @@ package com.ufpr.model.facade;
 
 import com.ufpr.model.dao.CustomerDao;
 import com.ufpr.model.dao.implement.CustomerDaoJDBC;
+import com.ufpr.model.db.DbException;
 import com.ufpr.model.entities.Customer;
 
 /**
@@ -20,22 +21,32 @@ public class CustomerFacade {
     }
     
     public void insert(Customer customer){
-        cd.insert(customer);
+        try{
+            cd.insert(customer);
+        } catch (DbException e){}
     }
     
     public void update(Customer customer){
-        cd.update(customer);
+        try{
+            cd.update(customer);
+        } catch (DbException e){}
     }
         
     public void deleteById(Customer customer){
-        cd.deleteById(customer.getId());
+        try{
+            cd.deleteById(customer.getId());
+        }catch (DbException e){}
     }
     
     public void findById(Customer customer){
-        cd.findById(customer.getId());
+        try{
+            cd.findById(customer.getId());
+        }catch (DbException e){}
     }
     
-    public void FindAll(){
-        cd.findAll();
+    public void findAll(){
+        try{
+            cd.findAll();
+        }catch (DbException e){}
     }
-}
+} //fim da classe
