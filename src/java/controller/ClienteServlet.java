@@ -7,6 +7,7 @@ package controller;
 
 import facade.ClienteFacade;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,25 +22,29 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ClienteServlet", urlPatterns = {"/ClienteServlet"})
 public class ClienteServlet extends HttpServlet {
 
+    
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        ClienteFacade cf = new ClienteFacade();
+        
+        List lista = cf.listar();
+        
+        request.setAttribute("lista", lista);
+        RequestDispatcher rd = getServletContext()
+                .getRequestDispatcher("/listarclientes.jsp");
+        rd.forward(request, response);
+    }
+
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        ClienteFacade cf = new ClienteFacade();
-        int qtdcli = cf.quantidade();
-        
-        
-        request.setAttribute("qtdclientes", qtdcli);
-        RequestDispatcher rd = getServletContext()
-                .getRequestDispatcher("/cliente.jsp");
-        rd.forward(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+    
     @Override
     public String getServletInfo() {
         return "Short description";

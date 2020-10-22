@@ -6,6 +6,7 @@
 package facade;
 
 import dao.ClienteDAO;
+import java.util.List;
 import model.Cliente;
 
 /**
@@ -21,6 +22,10 @@ public class ClienteFacade {
     
     public void inserir(Cliente cliente){
         clienteDAO.incluirCliente(cliente);
+    }
+    
+    public List listar() {
+        return clienteDAO.listarClientes();
     }
     
     public int quantidade() {
