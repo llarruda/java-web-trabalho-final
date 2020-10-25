@@ -20,7 +20,7 @@ public class ClienteFacade {
         
     }
     
-    public void inserir(Cliente cliente){
+    public void inserir(Cliente cliente) {
         clienteDAO.incluirCliente(cliente);
     }
     
@@ -28,9 +28,22 @@ public class ClienteFacade {
         return clienteDAO.listarClientes();
     }
     
+    public Cliente buscar(int id) {
+        return clienteDAO.consultarCliente(id);
+    }
+    
+    public void atualizar(Cliente cliente) {
+        clienteDAO.atualizarCliente(cliente);
+    }
+    
     public int quantidade() {
         int qnt = clienteDAO.getQuantidadeClientes();
         return qnt;
+    }
+    
+    public void deletar(int id) {
+        Cliente cliente = clienteDAO.consultarCliente(id);
+        clienteDAO.excluirCliente(cliente);
     }
     
 }

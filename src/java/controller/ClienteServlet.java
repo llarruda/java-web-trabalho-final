@@ -14,27 +14,39 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Cliente;
 
 /**
  *
  * @author Junior
  */
-@WebServlet(name = "ClienteServlet", urlPatterns = {"/ClienteServlet"})
+@WebServlet(name = "ClienteServlet", urlPatterns = {"/"})
 public class ClienteServlet extends HttpServlet {
 
+    ClienteFacade cf = new ClienteFacade();
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        ClienteFacade cf = new ClienteFacade();
-        
-        List lista = cf.listar();
-        
-        request.setAttribute("lista", lista);
-        RequestDispatcher rd = getServletContext()
-                .getRequestDispatcher("/listarclientes.jsp");
-        rd.forward(request, response);
+        String acao = request.getServletPath();
+        System.out.println(acao);
+        try {
+            switch (acao) {
+                case "/editar":
+                    editarCliente(request, response);
+                    break;
+                case "/novo":
+                    novoCliente(request, response);
+                    break;
+                default:
+                    listarCliente(request, response);
+                    break;
+            }
+        // TRATAR EXCEÇÃO    
+        } catch (ServletException ex) {
+            throw new ServletException(ex);
+        }
     }
 
     
@@ -42,12 +54,101 @@ public class ClienteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        String acao = request.getServletPath();
+        System.out.println(acao);
+        try {
+            switch (acao) {
+                case "/atualizar":
+                    atualizarCliente(request, response);
+                    break;
+                case "/criar":
+                    inserirCliente(request, response);
+                    break;
+                case "/excluir":
+                    deletarCliente(request, response);
+                    break;
+                default:
+                    listarCliente(request, response);
+                    break;
+            }
+        // TRATAR EXCEÇÃO    
+        } catch (ServletException ex) {
+            throw new ServletException(ex);
+        }
+        
     }
 
+    protected void listarCliente(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+            List lista = cf.listar();
+
+            request.setAttribute("lista", lista);
+            RequestDispatcher rd = getServletContext()
+                    .getRequestDispatcher("/clientes.jsp");
+            rd.forward(request, response);   
+    }
+    
+    protected void inserirCliente(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+            String nome = request.getParameter("nome");
+            String sobrenome = request.getParameter("sobrenome");
+            String cpf = request.getParameter("cpf");
+            
+            Cliente c = new Cliente(0, cpf, nome, sobrenome);
+            //System.out.println(c.getNome() + c.getSobreNome() + c.getCpf());
+            cf.inserir(c);
+            
+            response.sendRedirect("clientes");
+    }
+    
+    protected void novoCliente(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        RequestDispatcher rd = request.getRequestDispatcher("novocliente.jsp");
+        rd.forward(request, response);
+    }
+    
+    protected void editarCliente(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+            int id = Integer.parseInt(request.getParameter("id"));
+        
+            Cliente c = cf.buscar(id);
+
+            request.setAttribute("cliente", c);
+            RequestDispatcher rd = getServletContext()
+                    .getRequestDispatcher("/editarcliente.jsp");
+            rd.forward(request, response);    
+    }
+    
+        protected void atualizarCliente(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+            int id = Integer.parseInt(request.getParameter("id"));
+            String nome = request.getParameter("nome");
+            String sobrenome = request.getParameter("sobrenome");
+            String cpf = request.getParameter("cpf");
+            
+            Cliente c = new Cliente(id, cpf, nome, sobrenome);
+            //System.out.println(c.getNome() + c.getSobreNome() + c.getCpf());
+            cf.atualizar(c);
+            
+            response.sendRedirect("clientes");
+    }
+        
+    protected void deletarCliente(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        int id = Integer.parseInt(request.getParameter("id"));
+        cf.deletar(id);
+        response.sendRedirect("clientes");
+    }
     
     @Override
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
 }

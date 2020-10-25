@@ -1,6 +1,6 @@
 <%-- 
-    Document   : listarclientes
-    Created on : 21/10/2020, 21:08:07
+    Document   : newjsp
+    Created on : 22/10/2020, 20:16:15
     Author     : Junior
 --%>
 
@@ -10,10 +10,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Inicio</title>
     </head>
     <body>
         <h1>Clientes cadastrados: </h1>
+        <h2><a href="novo">Novo Cliente</a></h2>
         <table>
             <tr>
                 <th>ID</th>
@@ -27,6 +28,11 @@
                         <td>${cliente.nome}</td>
                         <td>${cliente.sobreNome}</td>
                         <td>${cliente.cpf}</td>
+                        <td><a href="editar?id=${cliente.id}">Editar</a></td>
+                        <form action="excluir" method="POST">
+                            <input type="hidden" name="id" value="${cliente.id}">
+                            <td><input type="submit" value="Excluir"></td>
+                        </form>
                     </tr>
                 </c:forEach>
         </table>

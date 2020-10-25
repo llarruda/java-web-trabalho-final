@@ -70,7 +70,7 @@ public class ClienteDAO {
                 
                 return clienteLido;
             }else{
-                throw new RuntimeException("Não existe cliente com este id. ID = " + id);
+                throw new RuntimeException("Nï¿½o existe cliente com este id. ID = " + id);
             }
             
         } catch (SQLException ex) {
@@ -127,9 +127,9 @@ public class ClienteDAO {
         } catch (SQLException ex) {
             throw new RuntimeException("Erro ao consultar quantidade de clientes no banco de dados. " + ex.getMessage());
         } finally{
-            //try{rs.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar result set: " + ex.getMessage());}
-            //try{stmt.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar stmt: " + ex.getMessage());}
-            //try{conn.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar conexao: " + ex.getMessage());}
+            try{rs.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar result set: " + ex.getMessage());}
+            try{stmt.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar stmt: " + ex.getMessage());}
+            try{conn.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar conexao: " + ex.getMessage());}
         }
 
     }
