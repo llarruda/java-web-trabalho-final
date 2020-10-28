@@ -100,6 +100,9 @@ public class ClienteServlet extends HttpServlet {
             //System.out.println(c.getNome() + c.getSobreNome() + c.getCpf());
             cf.inserir(c);
             
+            boolean sucesso = true;
+            request.getSession().setAttribute("sucessomsg", sucesso);
+            
             response.sendRedirect("clientes");
     }
     
@@ -135,6 +138,9 @@ public class ClienteServlet extends HttpServlet {
             //System.out.println(c.getNome() + c.getSobreNome() + c.getCpf());
             cf.atualizar(c);
             
+            boolean alterar = true;
+            request.getSession().setAttribute("alterarmsg", alterar);      
+            
             response.sendRedirect("clientes");
     }
         
@@ -143,6 +149,10 @@ public class ClienteServlet extends HttpServlet {
         
         int id = Integer.parseInt(request.getParameter("id"));
         cf.deletar(id);
+        
+        boolean excluir = true;
+        request.getSession().setAttribute("excluirmsg", excluir);
+        
         response.sendRedirect("clientes");
     }
     

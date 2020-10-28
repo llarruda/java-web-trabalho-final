@@ -12,20 +12,40 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        
         <title>Clientes</title>
     </head>
     <body>
-        
+
         <h2 class="text-center">Lista de Clientes</h2>
-        
+
         <div class="row-sm">
             <div class="container">
-
                 <form action="novo">
                     <button type="submit" class="btn btn-success">Novo Cliente</button>
                 </form>
                 <br>
+                <c:if test="${sucessomsg == true}">
+                    <div class="alert alert-success" role="alert">
+                        Cliente cadastrado!
+                    </div>
+                    <c:remove var="sucessomsg" scope="session"/>
+                </c:if>
+                <c:if test="${excluirmsg == true}">
+                    <div class="alert alert-danger" role="alert">
+                        Cliente excluido!
+                    </div>
+                    <c:remove var="excluirmsg" scope="session"/>
+                </c:if>
+                <c:if test="${alterarmsg == true}">
+                    <div class="alert alert-primary" role="alert">
+                        Cliente alterado com sucesso!
+                    </div>
+                    <c:remove var="alterarmsg" scope="session"/>
+                </c:if>                   
                 <table class="table table-bordered">
                     <tr>
                         <th scope="col" style="width: 1%">ID</th>
@@ -47,19 +67,15 @@
                                         <button type="submit" class="btn btn-primary">Editar</button>
                                     </form>
                                     <form action="excluir" method="POST">
-                                        <input type="hidden" name="id" value="${cliente.id}">
-                                        <button type="submit" class="btn btn-danger mr-1">Excluir</button>
-                                    </form>                                
-                                </div>
+                                        <input type="hidden" name="id" value="${cliente.id}"">
+                                        <button type="submit" class="btn btn-danger">Excluir</button>
+                                    </form>
+                                </div>    
                             </td>
                         </tr>
                     </c:forEach>
                 </table>
             </div>
         </div>
-        
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     </body>
 </html>
