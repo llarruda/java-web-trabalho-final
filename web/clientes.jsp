@@ -66,16 +66,51 @@
                                         <input type="hidden" name="id" value="${cliente.id}">
                                         <button type="submit" class="btn btn-primary">Editar</button>
                                     </form>
-                                    <form action="excluir" method="POST">
+<!--                                    <form action="excluir" method="POST">
                                         <input type="hidden" name="id" value="${cliente.id}"">
-                                        <button type="submit" class="btn btn-danger">Excluir</button>
-                                    </form>
+                                        <button class="btn btn-danger" data-catid="${cliente.id}" data-toggle="modal" data-target="#delete">Excluir</button>
+                                    </form>-->
+                                    <button class="btn btn-danger" data-catid="${cliente.id}" data-toggle="modal" data-target="#delete">Excluir</button>
                                 </div>    
                             </td>
                         </tr>
                     </c:forEach>
                 </table>
             </div>
+
+            <!-- Modal -->
+            <div class="modal modal-danger fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog  modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="TituloModalCentralizado">Confirmar exclusão</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="excluir" method="POST">
+                            <div class="modal-body">
+                                Deseja excluir esse cliente?
+                                <input type="hidden" name="id" id="cat_id" value="">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-warning">Excluir</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>            
         </div>
+        
+        <script>
+            $('#delete').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) 
+                var cat_id = button.data('catid') 
+                var modal = $(this)
+                modal.find('.modal-body #cat_id').val(cat_id);
+          })
+          </script>        
     </body>
 </html>
