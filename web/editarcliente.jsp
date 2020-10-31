@@ -22,6 +22,12 @@
         <br>
         <div class="row-sm">
             <div class="container col-md-4">
+                <c:if test="${existecpf == true}">
+                    <div class="alert alert-danger" role="alert">
+                        Já existe cliente com esse CPF!
+                    </div>
+                    <c:remove var="existecpf" scope="session"/>
+                </c:if>
                 <div class="card">
                     <div class="card-body">
                         <form action="atualizar" method="POST">
@@ -39,6 +45,7 @@
                                 <input type="number" class="form-control" name="cpf" value="${cliente.cpf}">  
                             </div>
                             <button type="submit" class="btn btn-primary">Atualizar</button>
+                            <a class="btn btn-danger" href="/java-web-trabalho-final/" role="button" style="float: right">Voltar</a>
                         </form>                        
                     </div>
                 </div>

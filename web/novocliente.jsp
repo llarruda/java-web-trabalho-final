@@ -3,7 +3,8 @@
     Created on : 25/10/2020, 18:22:14
     Author     : Junior
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -20,6 +21,12 @@
         <br>
         <div class="row-sm">
             <div class="container col-md-4">
+                <c:if test="${existecpf == true}">
+                    <div class="alert alert-danger" role="alert">
+                        Já existe cliente com esse CPF!
+                    </div>
+                    <c:remove var="existecpf" scope="session"/>
+                </c:if>
                 <div class="card">
                     <div class="card-body">
                         <form action="criar" method="POST">
@@ -36,7 +43,8 @@
                                 <input type="number" class="form-control" name="cpf">  
                             </div>
                             <button type="submit" class="btn btn-success">Salvar</button>
-                        </form>                        
+                            <a class="btn btn-danger" href="/java-web-trabalho-final/" role="button" style="float: right">Voltar</a>
+                        </form>
                     </div>
                 </div>
             </div>

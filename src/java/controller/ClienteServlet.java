@@ -24,11 +24,11 @@ import model.Cliente;
 public class ClienteServlet extends HttpServlet {
 
     ClienteFacade cf = new ClienteFacade();
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String acao = request.getServletPath();
         System.out.println(acao);
         try {
@@ -43,17 +43,16 @@ public class ClienteServlet extends HttpServlet {
                     listarCliente(request, response);
                     break;
             }
-        // TRATAR EXCEÇÃO    
+            // TRATAR EXCEÇÃO    
         } catch (ServletException ex) {
             throw new ServletException(ex);
         }
     }
 
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String acao = request.getServletPath();
         System.out.println(acao);
         try {
@@ -71,94 +70,136 @@ public class ClienteServlet extends HttpServlet {
                     listarCliente(request, response);
                     break;
             }
-        // TRATAR EXCEÇÃO    
+            // TRATAR EXCEÇÃO    
         } catch (ServletException ex) {
             throw new ServletException(ex);
         }
-        
+
     }
 
     protected void listarCliente(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-            List lista = cf.listar();
 
-            request.setAttribute("lista", lista);
-            RequestDispatcher rd = getServletContext()
-                    .getRequestDispatcher("/clientes.jsp");
-            rd.forward(request, response);   
+        List lista = cf.listar();
+
+        request.setAttribute("lista", lista);
+        RequestDispatcher rd = getServletContext()
+                .getRequestDispatcher("/clientes.jsp");
+        rd.forward(request, response);
     }
-    
+
     protected void inserirCliente(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-            String nome = request.getParameter("nome");
-            String sobrenome = request.getParameter("sobrenome");
-            String cpf = request.getParameter("cpf");
-            
+
+        String nome = request.getParameter("nome");
+        String sobrenome = request.getParameter("sobrenome");
+        String cpf = request.getParameter("cpf");
+
+        List<Cliente> listaCliente = cf.listar();
+        boolean existecpf = false;
+        for (int i = 0; i < listaCliente.size(); i++) {
+            if (cpf.equals(listaCliente.get(i).getCpf())) {
+                existecpf = true;
+                break;
+            }
+        }
+
+        if (existecpf) {
+            request.getSession().setAttribute("existecpf", existecpf);
+            response.sendRedirect("novocliente.jsp");
+        } else {
             Cliente c = new Cliente(0, cpf, nome, sobrenome);
             //System.out.println(c.getNome() + c.getSobreNome() + c.getCpf());
             cf.inserir(c);
-            
+
             boolean sucesso = true;
             request.getSession().setAttribute("sucessomsg", sucesso);
-            
+
             response.sendRedirect("clientes");
+        }
+
     }
-    
+
     protected void novoCliente(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         RequestDispatcher rd = request.getRequestDispatcher("novocliente.jsp");
         rd.forward(request, response);
     }
-    
+
     protected void editarCliente(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-            int id = Integer.parseInt(request.getParameter("id"));
-        
-            Cliente c = cf.buscar(id);
 
-            request.setAttribute("cliente", c);
-            RequestDispatcher rd = getServletContext()
-                    .getRequestDispatcher("/editarcliente.jsp");
-            rd.forward(request, response);    
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        Cliente c = cf.buscar(id);
+
+        request.setAttribute("cliente", c);
+        RequestDispatcher rd = getServletContext()
+                .getRequestDispatcher("/editarcliente.jsp");
+        rd.forward(request, response);
     }
-    
-        protected void atualizarCliente(HttpServletRequest request, HttpServletResponse response)
+
+    protected void atualizarCliente(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-            int id = Integer.parseInt(request.getParameter("id"));
-            String nome = request.getParameter("nome");
-            String sobrenome = request.getParameter("sobrenome");
-            String cpf = request.getParameter("cpf");
-            
+
+//            int id = Integer.parseInt(request.getParameter("id"));
+//            String nome = request.getParameter("nome");
+//            String sobrenome = request.getParameter("sobrenome");
+//            String cpf = request.getParameter("cpf");
+//            
+//            Cliente c = new Cliente(id, cpf, nome, sobrenome);
+//            //System.out.println(c.getNome() + c.getSobreNome() + c.getCpf());
+//            cf.atualizar(c);
+//            
+//            boolean alterar = true;
+//            request.getSession().setAttribute("alterarmsg", alterar);      
+//            
+//            response.sendRedirect("clientes");
+        int id = Integer.parseInt(request.getParameter("id"));
+        String nome = request.getParameter("nome");
+        String sobrenome = request.getParameter("sobrenome");
+        String cpf = request.getParameter("cpf");
+
+        List<Cliente> listaCliente = cf.listar();
+        boolean existecpf = false;
+        for (int i = 0; i < listaCliente.size(); i++) {
+            if (cpf.equals(listaCliente.get(i).getCpf())) {
+                existecpf = true;
+                break;
+            }
+        }
+
+        if (existecpf) {
+            request.getSession().setAttribute("existecpf", existecpf);
+            String previousURL = request.getHeader("referer");
+            response.sendRedirect(previousURL);
+        } else {
             Cliente c = new Cliente(id, cpf, nome, sobrenome);
-            //System.out.println(c.getNome() + c.getSobreNome() + c.getCpf());
             cf.atualizar(c);
-            
+
             boolean alterar = true;
-            request.getSession().setAttribute("alterarmsg", alterar);      
-            
+            request.getSession().setAttribute("alterarmsg", alterar);
+
             response.sendRedirect("clientes");
+        }
     }
-        
+
     protected void deletarCliente(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         int id = Integer.parseInt(request.getParameter("id"));
         cf.deletar(id);
-        
+
         boolean excluir = true;
         request.getSession().setAttribute("excluirmsg", excluir);
-        
+
         response.sendRedirect("clientes");
     }
-    
+
     @Override
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
+
 }
