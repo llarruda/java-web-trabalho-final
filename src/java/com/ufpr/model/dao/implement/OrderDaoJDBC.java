@@ -22,6 +22,8 @@ public class OrderDaoJDBC implements OrderDao{
     public OrderDaoJDBC(Connection conn) {
         this.conn = conn;
     }
+    
+    public OrderDaoJDBC(){}
 
     @Override
     public void insert(Order obj) {
