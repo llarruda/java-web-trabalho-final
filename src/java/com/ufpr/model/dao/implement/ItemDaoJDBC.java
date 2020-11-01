@@ -17,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -31,12 +32,14 @@ public class ItemDaoJDBC implements ItemDao{
     public ItemDaoJDBC(Connection conn) {
         this.conn = conn;
     }
+    
+    public ItemDaoJDBC(){}
 
     @Override
     public void insert(Item obj) {
-        conn = DB.getConnection();
         PreparedStatement st = null;
         try {
+            conn = DB.getConnection();
             st = conn.prepareStatement(
                             "INSERT INTO produto"
                             + "(descricao)"
@@ -67,9 +70,9 @@ public class ItemDaoJDBC implements ItemDao{
 
     @Override
     public void update(Item obj) {
-        conn = DB.getConnection();
         PreparedStatement st = null;
         try {
+            conn = DB.getConnection();
             st = conn.prepareStatement(
                             "UPDATE produto "
                             + "SET descricao = ? "
@@ -90,10 +93,10 @@ public class ItemDaoJDBC implements ItemDao{
 
     @Override
     public void deleteById(Integer id) {
-        conn = DB.getConnection();
         PreparedStatement st = null;
 
         try {
+            conn = DB.getConnection();
             st = conn.prepareStatement("DELETE FROM produto WHERE Id = ?");
             st.setInt(1, id);
 
@@ -108,13 +111,13 @@ public class ItemDaoJDBC implements ItemDao{
 
     @Override
     public Item findById(Integer id) {
-        conn = DB.getConnection();
         PreparedStatement st = null;
         ResultSet rs = null;
         
         Item resultItem;
         
         try{
+            conn = DB.getConnection();
             st = conn.prepareStatement("SELECT * FROM produto WHERE Id = ?");
             st.setInt(1, id);
             
@@ -137,7 +140,29 @@ public class ItemDaoJDBC implements ItemDao{
 
     @Override
     public List<Item> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        
+        List<Item> list = new ArrayList();
+        
+        try{
+            conn = DB.getConnection();
+            st = conn.prepareStatement("SELECT * FROM produto");
+            rs = st.executeQuery();
+            
+            while(rs.next()){
+                Item item = new Item(rs.getInt("id"), rs.getString("descricao"));
+                item.setId(rs.getInt("id"));
+                list.add(item);
+            }
+            return list;
+        } catch (SQLException e){
+            throw new DbException (e.getMessage());
+        } finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+            DB.closeConnection();
+        } 
     }
    
 }
