@@ -70,7 +70,7 @@ public class ClienteDAO {
                 
                 return clienteLido;
             }else{
-                throw new RuntimeException("N�o existe cliente com este id. ID = " + id);
+                throw new RuntimeException("Não existe cliente com este id. ID = " + id);
             }
             
         } catch (SQLException ex) {

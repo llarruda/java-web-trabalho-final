@@ -92,8 +92,30 @@ public class ClienteServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String nome = request.getParameter("nome");
+        if(nome.isEmpty()) {
+            request.setAttribute("msgerro", "Nome não pode ser vazio.");
+            RequestDispatcher rd = request.getRequestDispatcher("/erro.jsp");
+            rd.forward(request, response);
+            return;
+        }
+
         String sobrenome = request.getParameter("sobrenome");
+        if (sobrenome.isEmpty()) {
+            request.setAttribute("msgerro", "Sobrenome não pode ser vazio.");
+            RequestDispatcher rd = request.getRequestDispatcher("/erro.jsp");
+            rd.forward(request, response);
+            return;
+        }
+        
         String cpf = request.getParameter("cpf");
+        if(cpf.isEmpty()) {
+            request.setAttribute("msgerro", "CPF não pode ser vazio.");
+            RequestDispatcher rd = request.getRequestDispatcher("/erro.jsp");
+            rd.forward(request, response);
+            return;
+        }
+        cpf = cpf.replaceAll("\\.", "");
+        cpf = cpf.replaceAll("-", "");        
 
         List<Cliente> listaCliente = cf.listar();
         boolean existecpf = false;
@@ -143,23 +165,12 @@ public class ClienteServlet extends HttpServlet {
     protected void atualizarCliente(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-//            int id = Integer.parseInt(request.getParameter("id"));
-//            String nome = request.getParameter("nome");
-//            String sobrenome = request.getParameter("sobrenome");
-//            String cpf = request.getParameter("cpf");
-//            
-//            Cliente c = new Cliente(id, cpf, nome, sobrenome);
-//            //System.out.println(c.getNome() + c.getSobreNome() + c.getCpf());
-//            cf.atualizar(c);
-//            
-//            boolean alterar = true;
-//            request.getSession().setAttribute("alterarmsg", alterar);      
-//            
-//            response.sendRedirect("clientes");
         int id = Integer.parseInt(request.getParameter("id"));
         String nome = request.getParameter("nome");
         String sobrenome = request.getParameter("sobrenome");
         String cpf = request.getParameter("cpf");
+        cpf = cpf.replaceAll("\\.", "");
+        cpf = cpf.replaceAll("-", "");
 
         List<Cliente> listaCliente = cf.listar();
         boolean existecpf = false;

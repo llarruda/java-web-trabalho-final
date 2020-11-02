@@ -46,7 +46,7 @@
                             </div>
                             <div class="form-group">
                                 <label>CPF</label>
-                                <input type="text" class="form-control" name="cpf" id="cpf" required minlength="11" maxlength="11" pattern="[0-9]{11}" title="Digite apenas números">  
+                                <input type="text" class="form-control" name="cpf" id="cpf" required minlength="11" maxlength="11" pattern="^(\d{3}\.\d{3}\.\d{3}-\d{2})|(\d{11})$" title="Digite apenas números">  
                             </div>
                             <button type="submit" class="btn btn-success">Salvar</button>
                             <a class="btn btn-danger" href="/java-web-trabalho-final/" role="button" style="float: right">Voltar</a>
