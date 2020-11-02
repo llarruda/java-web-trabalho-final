@@ -32,15 +32,15 @@
                         <form action="criar" method="POST">
                             <div class="form-group">
                                 <label>Nome</label>
-                                <input type="text" class="form-control" name="nome">                        
+                                <input type="text" class="form-control" name="nome" required minlength="3" maxlength="80">                        
                             </div>
                             <div class="form-group">
                                 <label>Sobrenome</label>
-                                <input type="text" class="form-control" name="sobrenome">  
+                                <input type="text" class="form-control" name="sobrenome" required minlength="3" maxlength="80">  
                             </div>
                             <div class="form-group">
                                 <label>CPF</label>
-                                <input type="number" class="form-control" name="cpf">  
+                                <input type="text" class="form-control" name="cpf" required minlength="11" maxlength="11" pattern="[0-9]{11}" title="Digite apenas números">  
                             </div>
                             <button type="submit" class="btn btn-success">Salvar</button>
                             <a class="btn btn-danger" href="/java-web-trabalho-final/" role="button" style="float: right">Voltar</a>

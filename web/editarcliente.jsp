@@ -34,15 +34,15 @@
                             <input type="hidden" name="id" value="${cliente.id}"/>
                             <div class="form-group">
                                 <label>Nome</label>
-                                <input type="text" class="form-control" name="nome" value="${cliente.nome}">                        
+                                <input type="text" class="form-control" name="nome" value="${cliente.nome}" required minlength="3" maxlength="80">                        
                             </div>
                             <div class="form-group">
                                 <label>Sobrenome</label>
-                                <input type="text" class="form-control" name="sobrenome" value="${cliente.sobreNome}">  
+                                <input type="text" class="form-control" name="sobrenome" value="${cliente.sobreNome}" required minlength="3" maxlength="80">  
                             </div>
                             <div class="form-group">
                                 <label>CPF</label>
-                                <input type="number" class="form-control" name="cpf" value="${cliente.cpf}">  
+                                <input type="text" class="form-control" name="cpf" value="${cliente.cpf}" required minlength="11" maxlength="11" pattern="[0-9]{11}" title="Digite apenas números">  
                             </div>
                             <button type="submit" class="btn btn-primary">Atualizar</button>
                             <a class="btn btn-danger" href="/java-web-trabalho-final/" role="button" style="float: right">Voltar</a>
