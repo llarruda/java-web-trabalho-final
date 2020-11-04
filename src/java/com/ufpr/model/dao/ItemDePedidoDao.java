@@ -5,17 +5,16 @@
  */
 package com.ufpr.model.dao;
 
-import com.ufpr.model.entities.Customer;
+import com.ufpr.model.entities.ItemDePedido;
 import java.util.List;
 
 /**
  *
  * @author Jordi.Santos
  */
-public interface CustomerDao {
-        void insert(Customer obj);
-	void update(Customer obj);
-	void deleteById(Integer id);
-	Customer findById(Integer id);
-	List<Customer> findAll();
+public interface ItemDePedidoDao {
+    void insert(ItemDePedido obj);
+    void update(ItemDePedido obj);
+    List<ItemDePedido> findAll();
+    
 }

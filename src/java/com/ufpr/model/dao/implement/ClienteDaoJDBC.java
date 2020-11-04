@@ -7,31 +7,32 @@ package com.ufpr.model.dao.implement;
 
 import com.ufpr.model.db.DB;
 import com.ufpr.model.db.DbException;
-import com.ufpr.model.dao.CustomerDao;
-import com.ufpr.model.entities.Customer;
+import com.ufpr.model.entities.Cliente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import com.ufpr.model.dao.ClienteDao;
+import java.util.ArrayList;
 
 /**
  *
  * @author Jordi.Santos
  */
-public class CustomerDaoJDBC implements CustomerDao{
+public class ClienteDaoJDBC implements ClienteDao{
     
     private Connection conn;
 
-    public CustomerDaoJDBC(Connection conn) {
+    public ClienteDaoJDBC(Connection conn) {
         this.conn = conn;
     }
     
-    public CustomerDaoJDBC(){}
+    public ClienteDaoJDBC(){}
 
     @Override
-    public void insert(Customer obj) {
+    public void insert(Cliente obj) {
         PreparedStatement st = null;
         try {
             st = conn.prepareStatement(
@@ -41,7 +42,7 @@ public class CustomerDaoJDBC implements CustomerDao{
                             + "(?, ?, ?)",
                             Statement.RETURN_GENERATED_KEYS);
             st.setString(1, obj.getName());
-            st.setString(2, obj.getSurename());
+            st.setString(2, obj.getSobrenome());
             st.setString(3, obj.getCpf());
 
             int rowsAffected = st.executeUpdate();
@@ -60,11 +61,12 @@ public class CustomerDaoJDBC implements CustomerDao{
         }
         finally {
                 DB.closeStatement(st);
+                DB.closeConnection();
         }
     }
 
     @Override
-    public void update(Customer obj) {
+    public void update(Cliente obj) {
         PreparedStatement st = null;
         try {
             st = conn.prepareStatement(
@@ -72,7 +74,7 @@ public class CustomerDaoJDBC implements CustomerDao{
                             + "SET Name = ?, Surename = ?, cpf = ? "
                             + "WHERE Id = ?");
             st.setString(1, obj.getName());
-            st.setString(2, obj.getSurename());
+            st.setString(2, obj.getSobrenome());
             st.setString(3, obj.getCpf());
             st.setInt(4, obj.getId());
 
@@ -83,6 +85,7 @@ public class CustomerDaoJDBC implements CustomerDao{
         }
         finally {
             DB.closeStatement(st);
+            DB.closeConnection();
         }
     }
 
@@ -100,17 +103,60 @@ public class CustomerDaoJDBC implements CustomerDao{
                 throw new DbException (e.getMessage());
         } finally {
             DB.closeStatement(st);
+            DB.closeConnection();
         }
     }
 
     @Override
-    public Customer findById(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Cliente findById(Integer id) {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        
+        try{
+            st = conn.prepareStatement("SELECT * FROM cliente WHERE id = ?");
+            st.setInt(1, id);
+            rs = st.executeQuery();
+            
+            if(rs.next()){
+                Cliente cconsulta = new Cliente(rs.getInt("id"), rs.getString("cpf"), rs.getString("nome"), rs.getString("sobrenome"));
+                
+                return cconsulta;
+            } else {
+                throw new RuntimeException("Não existe cliente com o ID: " + id);
+            }
+        } catch (SQLException e){
+            throw new DbException(e.getMessage());
+        } finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+            DB.closeConnection();
+        }
     }
 
     @Override
-    public List<Customer> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Cliente> findAll() {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        List<Cliente> list = new ArrayList();
+        
+        try{
+            st = conn.prepareStatement("SELECT * FROM cliente");
+            rs = st.executeQuery();
+            
+            while(rs.next()){
+                Cliente cliente = new Cliente(rs.getInt("id"), rs.getString("cpf"), rs.getString("nome"), rs.getString("sobrenome"));
+                cliente.setId(rs.getInt("id"));
+                
+                list.add(cliente);
+            }
+            return list;
+        } catch (SQLException e){
+            throw new DbException (e.getMessage());
+        } finally{
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+            DB.closeConnection();
+        }
     }
     
 }

@@ -12,13 +12,13 @@ import java.util.Objects;
  *
  * @author Jordi.Santos
  */
-public class Item implements Serializable{
+public class Produto implements Serializable{
     private int id;
-    private String description;
+    private String descricao;
 
-    public Item(int id, String description) {
+    public Produto(int id, String description) {
         this.id = id;
-        this.description = description;
+        this.descricao = description;
     }
 
     public int getId() {
@@ -29,19 +29,19 @@ public class Item implements Serializable{
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 53 * hash + this.id;
-        hash = 53 * hash + Objects.hashCode(this.description);
+        hash = 53 * hash + Objects.hashCode(this.descricao);
         return hash;
     }
 
@@ -56,11 +56,11 @@ public class Item implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Item other = (Item) obj;
+        final Produto other = (Produto) obj;
         if (this.id != other.id) {
             return false;
         }
-        if (!Objects.equals(this.description, other.description)) {
+        if (!Objects.equals(this.descricao, other.descricao)) {
             return false;
         }
         return true;
@@ -68,7 +68,7 @@ public class Item implements Serializable{
 
     @Override
     public String toString() {
-        return "Item{" + "id=" + id + ", description=" + description + '}';
+        return "Item{" + "id=" + id + ", description=" + descricao + '}';
     }
     
     

@@ -5,40 +5,40 @@
  */
 package com.ufpr.model.facade;
 
-import com.ufpr.model.dao.OrderDao;
-import com.ufpr.model.dao.implement.OrderDaoJDBC;
+import com.ufpr.model.dao.implement.PedidoDaoJDBC;
 import com.ufpr.model.db.DbException;
-import com.ufpr.model.entities.Order;
+import com.ufpr.model.entities.Pedido;
+import com.ufpr.model.dao.PedidoDao;
 
 /**
  *
  * @author Jordi.Santos
  */
-public class OrderFacade {
-    private OrderDao od = new OrderDaoJDBC();
+public class PedidoFacade {
+    private PedidoDao od = new PedidoDaoJDBC();
 
-    public OrderFacade() {
+    public PedidoFacade() {
     }
     
-    public void insert(Order order){
+    public void insert(Pedido order){
         try{
             od.insert(order);
         } catch (DbException e){}
     }
     
-    public void update(Order order){
+    public void update(Pedido order){
         try{
             od.update(order);
         } catch (DbException e){}
     }
         
-    public void deleteById(Order order){
+    public void deleteById(Pedido order){
         try{
             od.deleteById(order.getId());
         }catch (DbException e){}
     }
     
-    public void findById(Order order){
+    public void findById(Pedido order){
         try{
             od.findById(order.getId());
         }catch (DbException e){}

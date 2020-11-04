@@ -6,32 +6,32 @@
 package com.ufpr.model.dao.implement;
 
 
-import com.ufpr.model.dao.OrderDao;
-import com.ufpr.model.entities.Order;
+import com.ufpr.model.entities.Pedido;
 import java.sql.Connection;
 import java.util.List;
+import com.ufpr.model.dao.PedidoDao;
 
 /**
  *
  * @author Jordi.Santos
  */
-public class OrderDaoJDBC implements OrderDao{
+public class PedidoDaoJDBC implements PedidoDao{
     
     private Connection conn;
 
-    public OrderDaoJDBC(Connection conn) {
+    public PedidoDaoJDBC(Connection conn) {
         this.conn = conn;
     }
     
-    public OrderDaoJDBC(){}
+    public PedidoDaoJDBC(){}
 
     @Override
-    public void insert(Order obj) {
+    public void insert(Pedido obj) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void update(Order obj) {
+    public void update(Pedido obj) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -41,12 +41,12 @@ public class OrderDaoJDBC implements OrderDao{
     }
 
     @Override
-    public Order findById(Integer id) {
+    public Pedido findById(Integer id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Order> findAll() {
+    public List<Pedido> findAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

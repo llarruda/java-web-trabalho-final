@@ -12,18 +12,18 @@ import java.util.Objects;
  *
  * @author Jordi.Santos
  */
-public class Customer implements Serializable{
+public class Cliente implements Serializable{
     
     private Integer id;
     private String cpf;
-    private String name;
-    private String surename;
+    private String nome;
+    private String sobrenome;
 
-    public Customer(Integer id, String cpf, String name, String surename) {
+    public Cliente(Integer id, String cpf, String name, String surename) {
         this.id = id;
         this.cpf = cpf;
-        this.name = name;
-        this.surename = surename;
+        this.nome = name;
+        this.sobrenome = surename;
     }
 
     public Integer getId() {
@@ -43,24 +43,24 @@ public class Customer implements Serializable{
     }
 
     public String getName() {
-        return name;
+        return nome;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.nome = name;
     }
 
-    public String getSurename() {
-        return surename;
+    public String getSobrenome() {
+        return sobrenome;
     }
 
-    public void setSurename(String surename) {
-        this.surename = surename;
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
     }
 
     @Override
     public String toString() {
-        return "Customer{" + "id=" + id + ", cpf=" + cpf + ", name=" + name + ", surename=" + surename + '}';
+        return "Customer{" + "id=" + id + ", cpf=" + cpf + ", name=" + nome + ", surename=" + sobrenome + '}';
     }
 
     @Override
@@ -68,8 +68,8 @@ public class Customer implements Serializable{
         int hash = 5;
         hash = 31 * hash + Objects.hashCode(this.id);
         hash = 31 * hash + Objects.hashCode(this.cpf);
-        hash = 31 * hash + Objects.hashCode(this.name);
-        hash = 31 * hash + Objects.hashCode(this.surename);
+        hash = 31 * hash + Objects.hashCode(this.nome);
+        hash = 31 * hash + Objects.hashCode(this.sobrenome);
         return hash;
     }
 
@@ -84,14 +84,14 @@ public class Customer implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Customer other = (Customer) obj;
+        final Cliente other = (Cliente) obj;
         if (!Objects.equals(this.cpf, other.cpf)) {
             return false;
         }
-        if (!Objects.equals(this.name, other.name)) {
+        if (!Objects.equals(this.nome, other.nome)) {
             return false;
         }
-        if (!Objects.equals(this.surename, other.surename)) {
+        if (!Objects.equals(this.sobrenome, other.sobrenome)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {

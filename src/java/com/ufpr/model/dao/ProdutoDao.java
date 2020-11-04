@@ -5,17 +5,17 @@
  */
 package com.ufpr.model.dao;
 
-import com.ufpr.model.entities.Order;
+import com.ufpr.model.entities.Produto;
 import java.util.List;
 
 /**
  *
  * @author Jordi.Santos
  */
-public interface OrderDao {
-        void insert(Order obj);
-	void update(Order obj);
+public interface ProdutoDao {
+    	void insert(Produto obj);
+	void update(Produto obj);
 	void deleteById(Integer id);
-	Order findById(Integer id);
-	List<Order> findAll();    
+	Produto findById(Integer id);
+	List<Produto> findAll();
 }

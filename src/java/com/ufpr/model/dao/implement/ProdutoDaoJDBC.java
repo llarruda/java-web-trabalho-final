@@ -5,12 +5,11 @@
  */
 package com.ufpr.model.dao.implement;
 
-import com.ufpr.model.dao.ItemDao;
 
 import com.ufpr.model.db.DB;
 import com.ufpr.model.db.DbException;
 
-import com.ufpr.model.entities.Item;
+import com.ufpr.model.entities.Produto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,23 +19,24 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import java.util.List;
+import com.ufpr.model.dao.ProdutoDao;
 
 /**
  *
  * @author Jordi.Santos
  */
-public class ItemDaoJDBC implements ItemDao{
+public class ProdutoDaoJDBC implements ProdutoDao{
     
     private Connection conn;
 
-    public ItemDaoJDBC(Connection conn) {
+    public ProdutoDaoJDBC(Connection conn) {
         this.conn = conn;
     }
     
-    public ItemDaoJDBC(){}
+    public ProdutoDaoJDBC(){}
 
     @Override
-    public void insert(Item obj) {
+    public void insert(Produto obj) {
         PreparedStatement st = null;
         try {
             conn = DB.getConnection();
@@ -46,7 +46,7 @@ public class ItemDaoJDBC implements ItemDao{
                             + "VALUES "
                             + "(?)",
                             Statement.RETURN_GENERATED_KEYS);
-            st.setString(1, obj.getDescription());
+            st.setString(1, obj.getDescricao());
 
             int rowsAffected = st.executeUpdate();
 
@@ -69,7 +69,7 @@ public class ItemDaoJDBC implements ItemDao{
     }
 
     @Override
-    public void update(Item obj) {
+    public void update(Produto obj) {
         PreparedStatement st = null;
         try {
             conn = DB.getConnection();
@@ -77,7 +77,7 @@ public class ItemDaoJDBC implements ItemDao{
                             "UPDATE produto "
                             + "SET descricao = ? "
                             + "WHERE Id = ?");
-            st.setString(1, obj.getDescription());
+            st.setString(1, obj.getDescricao());
             st.setInt(4, obj.getId());
 
             st.executeUpdate();
@@ -110,11 +110,11 @@ public class ItemDaoJDBC implements ItemDao{
     }
 
     @Override
-    public Item findById(Integer id) {
+    public Produto findById(Integer id) {
         PreparedStatement st = null;
         ResultSet rs = null;
         
-        Item resultItem;
+        Produto resultItem;
         
         try{
             conn = DB.getConnection();
@@ -124,7 +124,7 @@ public class ItemDaoJDBC implements ItemDao{
             rs = st.executeQuery();
             
             if(rs.next()){
-                resultItem = new Item(rs.getInt("id"), rs.getString("descricao"));
+                resultItem = new Produto(rs.getInt("id"), rs.getString("descricao"));
                 return resultItem;
             } else {
                 throw new DbException("There is no product matching the id " + id);
@@ -139,11 +139,11 @@ public class ItemDaoJDBC implements ItemDao{
     }
 
     @Override
-    public List<Item> findAll() {
+    public List<Produto> findAll() {
         PreparedStatement st = null;
         ResultSet rs = null;
         
-        List<Item> list = new ArrayList();
+        List<Produto> list = new ArrayList();
         
         try{
             conn = DB.getConnection();
@@ -151,7 +151,7 @@ public class ItemDaoJDBC implements ItemDao{
             rs = st.executeQuery();
             
             while(rs.next()){
-                Item item = new Item(rs.getInt("id"), rs.getString("descricao"));
+                Produto item = new Produto(rs.getInt("id"), rs.getString("descricao"));
                 item.setId(rs.getInt("id"));
                 list.add(item);
             }

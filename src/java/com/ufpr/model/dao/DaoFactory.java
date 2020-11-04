@@ -6,10 +6,10 @@
 package com.ufpr.model.dao;
 
 import com.ufpr.model.db.DB;
-import com.ufpr.model.dao.implement.CustomerDaoJDBC;
-import com.ufpr.model.dao.implement.ItemDaoJDBC;
-import com.ufpr.model.dao.implement.OrderDaoJDBC;
-import com.ufpr.model.dao.implement.OrderItemDaoJDBC;
+import com.ufpr.model.dao.implement.ClienteDaoJDBC;
+import com.ufpr.model.dao.implement.ProdutoDaoJDBC;
+import com.ufpr.model.dao.implement.PedidoDaoJDBC;
+import com.ufpr.model.dao.implement.ItemDePedidoDaoJDBC;
 
 /**
  *
@@ -17,19 +17,19 @@ import com.ufpr.model.dao.implement.OrderItemDaoJDBC;
  */
 public class DaoFactory {
 	
-	public static OrderDao createOrderDao() {
-		return new OrderDaoJDBC(DB.getConnection());
+	public static PedidoDao createOrderDao() {
+		return new PedidoDaoJDBC(DB.getConnection());
 	}
 	
-	public static ItemDao createItemDao() {
-		return new ItemDaoJDBC(DB.getConnection());
+	public static ProdutoDao createItemDao() {
+		return new ProdutoDaoJDBC(DB.getConnection());
 	}
         
-        public static OrderItemDao createOrderItemDao(){
-            return new OrderItemDaoJDBC(DB.getConnection());
+        public static ItemDePedidoDao createOrderItemDao(){
+            return new ItemDePedidoDaoJDBC(DB.getConnection());
         }
         
-        public static CustomerDao createCustomerDao(){
-            return new CustomerDaoJDBC(DB.getConnection());
+        public static ClienteDao createCustomerDao(){
+            return new ClienteDaoJDBC(DB.getConnection());
         }
 }

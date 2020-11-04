@@ -5,46 +5,47 @@
  */
 package com.ufpr.model.facade;
 
-import com.ufpr.model.dao.CustomerDao;
-import com.ufpr.model.dao.implement.CustomerDaoJDBC;
+import com.ufpr.model.dao.implement.ClienteDaoJDBC;
 import com.ufpr.model.db.DbException;
-import com.ufpr.model.entities.Customer;
+import com.ufpr.model.entities.Cliente;
+import com.ufpr.model.dao.ClienteDao;
+import java.util.List;
 
 /**
  *
  * @author Jordi.Santos
  */
-public class CustomerFacade {
-    private CustomerDao cd = new CustomerDaoJDBC();
+public class ClienteFacade{
+    private ClienteDao cd = new ClienteDaoJDBC();
 
-    public CustomerFacade() {
+    public ClienteFacade() {
     }
     
-    public void insert(Customer customer){
+    public void insert(Cliente customer){
         try{
             cd.insert(customer);
         } catch (DbException e){}
     }
     
-    public void update(Customer customer){
+    public void update(Cliente customer){
         try{
             cd.update(customer);
         } catch (DbException e){}
     }
+
+    public void deleteById(Integer id) {
+        try{
+            cd.deleteById(id);
+        }catch (DbException e){}
+    }
+
+    public Cliente findById(Integer id) {
+        try{
+            cd.findById(id);
+        }catch (DbException e){}
+    }
         
-    public void deleteById(Customer customer){
-        try{
-            cd.deleteById(customer.getId());
-        }catch (DbException e){}
-    }
-    
-    public void findById(Customer customer){
-        try{
-            cd.findById(customer.getId());
-        }catch (DbException e){}
-    }
-    
-    public void findAll(){
+    public List<Cliente> findAll(){
         try{
             cd.findAll();
         }catch (DbException e){}

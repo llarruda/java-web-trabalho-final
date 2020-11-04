@@ -13,13 +13,13 @@ import java.util.List;
  *
  * @author Jordi.Santos
  */
-public class Order implements Serializable{
+public class Pedido implements Serializable{
     private int id;
     private LocalDateTime date;
-    private Customer customer;
-    private List<OrderItem> orderItens;
+    private Cliente customer;
+    private List<ItemDePedido> orderItens;
 
-    public Order(int id, LocalDateTime data, Customer cliente, List<OrderItem> itensPedido) {
+    public Pedido(int id, LocalDateTime data, Cliente cliente, List<ItemDePedido> itensPedido) {
         this.id = id;
         this.date = data;
         this.customer = cliente;
@@ -42,15 +42,15 @@ public class Order implements Serializable{
         this.date = date;
     }
 
-    public Customer getCustomer() {
+    public Cliente getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(Cliente customer) {
         this.customer = customer;
     }
 
-    public List<OrderItem> getOrderItens() {
+    public List<ItemDePedido> getOrderItens() {
         return orderItens;
     }
         
