@@ -46,6 +46,8 @@ public class ClienteDAO {
             stmt.setString(3, cliente.getSobreNome());
             
             stmt.executeUpdate();
+            
+            conn.commit();
                     
         } catch (SQLException ex) {
             throw new RuntimeException("Erro ao inserir um cliente no banco de dados: " + ex.getMessage());
@@ -148,6 +150,8 @@ public class ClienteDAO {
             stmt.setInt(4, cliente.getId());
             
             stmt.executeUpdate();
+            
+            conn.commit();
                     
         } catch (SQLException ex) {
             throw new RuntimeException("Erro ao atulizar um cliente no banco de dados: " + ex.getMessage());
@@ -168,7 +172,9 @@ public class ClienteDAO {
             stmt.setInt(1, cliente.getId());
             
             stmt.executeUpdate();
-                    
+            
+            conn.commit();
+            
         } catch (SQLException ex) {
             throw new RuntimeException("Erro ao excluir um cliente no banco de dados: " + ex.getMessage());
         } finally {

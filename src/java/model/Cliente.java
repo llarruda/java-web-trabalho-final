@@ -22,8 +22,6 @@ public class Cliente {
         this.sobreNome = sobreNome;
     }
 
-    
-
     public int getId() {
         return id;
     }
