@@ -37,15 +37,19 @@ public class ProdutoFacade {
     }
 
     public Produto findById(Integer id) {
+        Produto pr = null;
         try{
-            Produto pr = pd.findById(id);
+            pr = pd.findById(id);
         } catch (DbException e){}
+        return pr;
     }
 
     public List<Produto> findAll() {
+        List<Produto> lpd = null;
         try{
-            pd.findAll();
+           lpd = pd.findAll();
         } catch (DbException e) {}
+        return lpd;
     }
     
 }

@@ -40,14 +40,19 @@ public class ClienteFacade{
     }
 
     public Cliente findById(Integer id) {
+        Cliente crs = null;
         try{
-            cd.findById(id);
+            crs = cd.findById(id);
+            
         }catch (DbException e){}
+        return crs;
     }
         
     public List<Cliente> findAll(){
+        List<Cliente> customerList = null;
         try{
-            cd.findAll();
+           customerList = cd.findAll();
         }catch (DbException e){}
+        return customerList;
     }
 } //fim da classe

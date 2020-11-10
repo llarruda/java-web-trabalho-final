@@ -5,6 +5,9 @@
  */
 package com.ufpr.control.servlet;
 
+import com.ufpr.model.dao.ClienteDao;
+import com.ufpr.model.dao.DaoFactory;
+
 /**
  *
  * @author Jordi.Santos
@@ -12,7 +15,7 @@ package com.ufpr.control.servlet;
 public class ConsoleCheck {
     public static void main (String [] args){
         
-        
+        ClienteDao cd = DaoFactory.createCustomerDao();
         
     }
     
