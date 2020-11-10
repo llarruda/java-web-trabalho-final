@@ -5,31 +5,44 @@
  */
 package connection;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
+import java.util.Properties;
 
 /**
  *
- * @author Junior
+ * @author llarruda
  */
 public class ConnectionFactory {
     public static Connection getConnection() {
-
         try {
-//            try {
-//                
-//                Class.forName("com.mysql.cj.jdbc.Driver");
-//            } catch (ClassNotFoundException ex) {
-//                Logger.getLogger(ConnectionFactory.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-            DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
-            
-            return DriverManager.getConnection("jdbc:mysql://localhost/javaweb?serverTimezone=UTC&useSSL=false", "root", "banco123");
-        } catch (SQLException ex) {
+            Properties prop = new Properties();
+            Thread currentThread = Thread.currentThread();
+            ClassLoader contextClassLoader = currentThread.getContextClassLoader();
+            InputStream propertiesStream = contextClassLoader.getResourceAsStream("db/db.properties");
+            if (propertiesStream != null) {           
+                prop.load(propertiesStream);
+                propertiesStream.close();
+                String dbDriver = prop.getProperty("db.driver");
+                String dbUrl = prop.getProperty("db.url");
+                String dbUser = prop.getProperty("db.user");
+                String dbPwd = prop.getProperty("db.pwd");
+                Class.forName(dbDriver);
+                // @DEBUG
+                // System.out.printf("URL = %s\nUser = %s\nPassword = %s\n",
+                //    dbUrl, dbUser, dbPwd);
+                Connection con = DriverManager.getConnection(dbUrl, dbUser, dbPwd);
+                con.setAutoCommit(false);
+                return con;
+            } else {
+                System.out.println("propertiesStream está retornando null");
+            }
+        } catch (ClassNotFoundException | IOException | SQLException ex) {
             throw new RuntimeException(ex);
         }
-
+        return null;
     }
 }
