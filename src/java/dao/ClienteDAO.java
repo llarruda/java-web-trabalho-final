@@ -28,11 +28,6 @@ public class ClienteDAO {
     private final String stmtExcluir = "DELETE FROM cliente WHERE ID = ?";
     private final String stmtQnt = "SELECT COUNT(*) FROM cliente";
     
-    
-    public ClienteDAO(){
-        
-    }
-    
     public void incluirCliente(Cliente cliente){
         Connection conn = null;
         PreparedStatement stmt = null;

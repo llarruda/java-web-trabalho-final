@@ -36,7 +36,7 @@
                 </c:if>
                 <div class="card">
                     <div class="card-body">
-                        <form action="atualizar" method="POST">
+                        <form action="${pageContext.request.contextPath}/clientes/atualizar" method="POST">
                             <input type="hidden" name="id" value="${cliente.id}"/>
                             <div class="form-group">
                                 <label>Nome</label>
@@ -51,7 +51,7 @@
                                 <input type="text" class="form-control" name="cpf" id="cpf" value="${cliente.cpf}" required minlength="11" maxlength="11" pattern="^(\d{3}\.\d{3}\.\d{3}-\d{2})|(\d{11})$" title="Digite apenas números">  
                             </div>
                             <button type="submit" class="btn btn-primary">Atualizar</button>
-                            <a class="btn btn-danger" href="/java-web-trabalho-final/" role="button" style="float: right">Voltar</a>
+                            <a class="btn btn-danger" href="${pageContext.request.contextPath}/clientes/list" role="button" style="float: right">Voltar</a>
                         </form>                        
                     </div>
                 </div>

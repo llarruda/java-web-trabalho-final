@@ -20,7 +20,7 @@ import model.Cliente;
  *
  * @author Junior
  */
-@WebServlet(name = "ClienteServlet", urlPatterns = {"/"})
+@WebServlet(name = "ClienteServlet", urlPatterns = {"/clientes/*"})
 public class ClienteServlet extends HttpServlet {
 
     ClienteFacade cf = new ClienteFacade();
@@ -29,8 +29,8 @@ public class ClienteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String acao = request.getServletPath();
-        System.out.println(acao);
+        String acao = request.getPathInfo();
+        System.out.println(">>> " + acao);
         try {
             switch (acao) {
                 case "/editar":
@@ -39,8 +39,12 @@ public class ClienteServlet extends HttpServlet {
                 case "/novo":
                     novoCliente(request, response);
                     break;
+                case "/listar":
+                    listarCliente(request, response);
+                    break;
                 default:
                     listarCliente(request, response);
+                    //response.sendRedirect(request.getContextPath() + "/home");
                     break;
             }
             // TRATAR EXCEÇÃO    
@@ -53,7 +57,7 @@ public class ClienteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String acao = request.getServletPath();
+        String acao = request.getPathInfo();
         System.out.println(acao);
         try {
             switch (acao) {
@@ -67,7 +71,8 @@ public class ClienteServlet extends HttpServlet {
                     deletarCliente(request, response);
                     break;
                 default:
-                    listarCliente(request, response);
+                    // listarCliente(request, response);
+                    response.sendRedirect(request.getContextPath() + "/home");
                     break;
             }
             // TRATAR EXCEÇÃO    
@@ -128,7 +133,7 @@ public class ClienteServlet extends HttpServlet {
 
         if (existecpf) {
             request.getSession().setAttribute("existecpf", existecpf);
-            response.sendRedirect("novocliente.jsp");
+            response.sendRedirect("novo");
         } else {
             Cliente c = new Cliente(0, cpf, nome, sobrenome);
             //System.out.println(c.getNome() + c.getSobreNome() + c.getCpf());
@@ -137,7 +142,7 @@ public class ClienteServlet extends HttpServlet {
             boolean sucesso = true;
             request.getSession().setAttribute("sucessomsg", sucesso);
 
-            response.sendRedirect("clientes");
+            response.sendRedirect("list");
         }
 
     }
@@ -145,7 +150,7 @@ public class ClienteServlet extends HttpServlet {
     protected void novoCliente(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        RequestDispatcher rd = request.getRequestDispatcher("novocliente.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/novocliente.jsp");
         rd.forward(request, response);
     }
 

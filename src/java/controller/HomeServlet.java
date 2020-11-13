@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author llarruda
  */
-@WebServlet(name = "Home", urlPatterns = {"/home"})
-public class Home extends HttpServlet {
+@WebServlet(name = "HomServlet", urlPatterns = {"/"})
+public class HomeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
