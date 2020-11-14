@@ -23,57 +23,53 @@
     </head>
     <body>
 
-        <h2 class="text-center">Lista de Clientes</h2>
+        <h2 class="text-center">Lista de Produtos</h2>
 
         <div class="row-sm">
             <div class="container">
                 <form action="novo">
-                    <button type="submit" class="btn btn-success">Novo Cliente</button>
+                    <button type="submit" class="btn btn-success">Novo Produto</button>
                 </form>
                 <br>
                 <c:if test="${sucessomsg == true}">
                     <div class="alert alert-success" role="alert">
-                        Cliente cadastrado!
+                        Produto cadastrado!
                     </div>
                     <c:remove var="sucessomsg" scope="session"/>
                 </c:if>
                 <c:if test="${excluirmsg == true}">
                     <div class="alert alert-danger" role="alert">
-                        Cliente excluido!
+                        Produto excluido!
                     </div>
                     <c:remove var="excluirmsg" scope="session"/>
                 </c:if>
                 <c:if test="${alterarmsg == true}">
                     <div class="alert alert-primary" role="alert">
-                        Cliente alterado com sucesso!
+                        Produto alterado com sucesso!
                     </div>
                     <c:remove var="alterarmsg" scope="session"/>
                 </c:if>                   
                 <table class="table table-bordered">
                     <tr>
                         <th scope="col" style="width: 1%">ID</th>
-                        <th scope="col" style="width: 1%">Nome</th>
-                        <th scope="col" style="width: 1%">Sobrenome</th>
-                        <th scope="col" style="width: 1%">CPF</th>
+                        <th scope="col" style="width: 1%">Descrição</th>
                         <th scope="col" style="width: 1%">Ação</th>
                     </tr>
                     <c:forEach var="cliente" items="${lista}">
                         <tr>
-                            <td>${cliente.id}</td>
-                            <td>${cliente.nome}</td>
-                            <td>${cliente.sobreNome}</td>
-                            <td class="cpf">${cliente.cpf}</td>
+                            <td>${produto.id}</td>
+                            <td>${produto.descrição}</td>
                             <td>
                                 <div class="form-row">
                                     <form action="editar?id=" method="GET" style="margin-right: 8px">
-                                        <input type="hidden" name="id" value="${cliente.id}">
+                                        <input type="hidden" name="id" value="${produto.id}">
                                         <button type="submit" class="btn btn-primary">Editar</button>
                                     </form>
 <!--                                    <form action="excluir" method="POST">
                                         <input type="hidden" name="id" value="${cliente.id}"">
                                         <button class="btn btn-danger" data-catid="${cliente.id}" data-toggle="modal" data-target="#delete">Excluir</button>
                                     </form>-->
-                                    <button class="btn btn-danger" data-catid="${cliente.id}" data-toggle="modal" data-target="#delete">Excluir</button>
+                                    <button class="btn btn-danger" data-catid="${produto.id}" data-toggle="modal" data-target="#delete">Excluir</button>
                                 </div>    
                             </td>
                         </tr>
@@ -93,7 +89,7 @@
                         </div>
                         <form action="excluir" method="POST">
                             <div class="modal-body">
-                                Deseja excluir esse cliente?
+                                Deseja excluir esse produto?
                                 <input type="hidden" name="id" id="cat_id" value="">
 
                             </div>
@@ -114,12 +110,6 @@
                 var modal = $(this)
                 modal.find('.modal-body #cat_id').val(cat_id);
             });
-        </script>
-        <script>
-            $(document).ready(function(){
-                $('.cpf').mask('999.999.999-99');
-            });
-        </script>  
-          
+        </script>        
     </body>
 </html>
