@@ -36,7 +36,7 @@
                 </c:if>
                 <div class="card">
                     <div class="card-body">
-                        <form action="${pageContext.request.contextPath}/produtos/update" method="POST">
+                        <form action="${pageContext.request.contextPath}/produtos/update" method="POST" accept-charset="iso-8859-1, utf-8">
                             <input type="hidden" name="id" value="${produto.id}"/>
                             <div class="form-group">
                                 <label>Descrição</label>
