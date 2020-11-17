@@ -30,11 +30,11 @@
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/clientes/list">Clientes<span class="sr-only">(current)</span></a>
+              <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/clientes/list">Clientes</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Produtos</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/produtos/list">Produtos</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Pedidos</a>

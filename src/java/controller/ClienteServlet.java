@@ -176,7 +176,8 @@ public class ClienteServlet extends HttpServlet {
         String cpf = request.getParameter("cpf");
         cpf = cpf.replaceAll("\\.", "");
         cpf = cpf.replaceAll("-", "");
-
+        
+        // TODO: consultar cliente por cpf, se houver mais de 1 registro ou se o registro for único, mas o id do cliente for diferente do registro editado no momento, não permitir editar
         List<Cliente> listaCliente = cf.listar();
         boolean existecpf = false;
         for (int i = 0; i < listaCliente.size(); i++) {
