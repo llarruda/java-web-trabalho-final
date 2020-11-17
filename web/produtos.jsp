@@ -70,9 +70,9 @@
                 </c:if>                   
                 <table class="table table-bordered">
                     <tr>
-                        <th scope="col" style="width: 1%">ID</th>
+                        <th scope="col" style="width: 0.2%">ID</th>
                         <th scope="col" style="width: 1%">Descrição</th>
-                        <th scope="col" style="width: 1%">Ação</th>
+                        <th scope="col" style="width: 0.2%">Ação</th>
                     </tr>
                     <c:forEach var="produto" items="${lista}">
                         <tr>
