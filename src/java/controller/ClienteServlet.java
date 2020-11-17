@@ -47,7 +47,6 @@ public class ClienteServlet extends HttpServlet {
                     //response.sendRedirect(request.getContextPath() + "/home");
                     break;
             }
-            // TRATAR EXCEÇÃO    
         } catch (ServletException ex) {
             throw new ServletException(ex);
         }
@@ -136,7 +135,6 @@ public class ClienteServlet extends HttpServlet {
             response.sendRedirect("novo");
         } else {
             Cliente c = new Cliente(0, cpf, nome, sobrenome);
-            //System.out.println(c.getNome() + c.getSobreNome() + c.getCpf());
             cf.inserir(c);
 
             boolean sucesso = true;
@@ -176,7 +174,7 @@ public class ClienteServlet extends HttpServlet {
         String cpf = request.getParameter("cpf");
         cpf = cpf.replaceAll("\\.", "");
         cpf = cpf.replaceAll("-", "");
-
+        
         List<Cliente> listaCliente = cf.listar();
         boolean existecpf = false;
         for (int i = 0; i < listaCliente.size(); i++) {
@@ -185,8 +183,10 @@ public class ClienteServlet extends HttpServlet {
                 break;
             }
         }
+        
+        Cliente cl = cf.buscar(id);
 
-        if (existecpf) {
+        if ((existecpf) && !cl.getCpf().equals(cpf)) {
             request.getSession().setAttribute("existecpf", existecpf);
             String previousURL = request.getHeader("referer");
             response.sendRedirect(previousURL);
