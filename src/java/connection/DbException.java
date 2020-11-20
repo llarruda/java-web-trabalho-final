@@ -7,10 +7,13 @@ package connection;
 
 /**
  *
- * @author Junior
+ * @author Jordi.Santos
  */
-public class TesteConexao {
-    public static void main(String[] args) {
-
+public class DbException extends RuntimeException {
+    
+	private static final long serialVersionUID = 1L;
+    
+    public DbException (String msg){
+        super(msg);
     }
 }

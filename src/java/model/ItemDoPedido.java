@@ -11,22 +11,22 @@ import java.util.Objects;
  *
  * @author Jordi.Santos
  */
-public class ItemDePedido {
+public class ItemDoPedido {
     
-    private Produto item;
+    private Produto produto;
     private int quantidade;
 
-    public ItemDePedido(Produto item, int amount) {
-        this.item = item;
-        this.quantidade = amount;
+    public ItemDoPedido(Produto produto, int quantidade) {
+        this.produto = produto;
+        this.quantidade = quantidade;
     }
 
-    public Produto getItem() {
-        return item;
+    public Produto getProduto() {
+        return produto;
     }
 
-    public void setItem(Produto item) {
-        this.item = item;
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
     public int getQuantidade() {
@@ -40,7 +40,7 @@ public class ItemDePedido {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 83 * hash + Objects.hashCode(this.item);
+        hash = 83 * hash + Objects.hashCode(this.produto);
         hash = 83 * hash + this.quantidade;
         return hash;
     }
@@ -56,11 +56,11 @@ public class ItemDePedido {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ItemDePedido other = (ItemDePedido) obj;
+        final ItemDoPedido other = (ItemDoPedido) obj;
         if (this.quantidade != other.quantidade) {
             return false;
         }
-        if (!Objects.equals(this.item, other.item)) {
+        if (!Objects.equals(this.produto, other.produto)) {
             return false;
         }
         return true;
@@ -69,7 +69,7 @@ public class ItemDePedido {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("OrderItem{item=").append(item);
+        sb.append("OrderItem{item=").append(produto);
         sb.append(", amount=").append(quantidade);
         sb.append('}');
         return sb.toString();

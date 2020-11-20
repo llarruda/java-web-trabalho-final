@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.Objects;
+
 /**
  *
  * @author Junior
@@ -20,9 +22,7 @@ public class Cliente {
         this.cpf = cpf;
         this.nome = nome;
         this.sobreNome = sobreNome;
-    }
-
-    
+    } 
 
     public int getId() {
         return id;
@@ -54,5 +54,10 @@ public class Cliente {
 
     public void setSobreNome(String sobreNome) {
         this.sobreNome = sobreNome;
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente{" + "id=" + id + ", cpf=" + cpf + ", nome=" + nome + ", sobreNome=" + sobreNome + '}';
     }
 }

@@ -3,18 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package db;
+package connection;
 
 /**
  *
  * @author Jordi.Santos
  */
-public class DbException extends RuntimeException {
-    
-	private static final long serialVersionUID = 1L;
-    
-    public DbException (String msg){
-        super(msg);
-    }
+public class DbIntegrityException extends RuntimeException {
 
+	private static final long serialVersionUID = 1L;
+	
+	public DbIntegrityException(String msg) {
+		super(msg);
+	}
 }

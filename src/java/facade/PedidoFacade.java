@@ -5,43 +5,43 @@
  */
 package facade;
 
+import connection.DbException;
+import dao.PedidoDAO;
+import java.sql.SQLException;
+import model.Cliente;
+import model.Pedido;
+
 /**
  *
  * @author Jordi.Santos
  */
 public class PedidoFacade {
-   /* private PedidoDao od = new PedidoDaoJDBC();
+    private PedidoDAO pd = new PedidoDAO();
 
     public PedidoFacade() {
     }
     
-    public void insert(Pedido order){
+    public void inserir(Pedido order) throws SQLException{
         try{
-            od.insert(order);
-        } catch (DbException e){}
-    }
-    
-    public void update(Pedido order){
-        try{
-            od.update(order);
-        } catch (DbException e){}
+            pd.insertPedido(order);
+        }catch (SQLException ex){
+            throw new DbException(ex.getMessage());
+        }
     }
         
-    public void deleteById(Pedido order){
+    public void deletePedido(Pedido pedido){
         try{
-            od.deleteById(order.getId());
-        }catch (DbException e){}
+            pd.deletePedido(pedido);
+        }catch (SQLException ex){
+            throw new DbException(ex.getMessage());
+        }
     }
-    
-    public void findById(Pedido order){
+  
+    public void selectListaPedido(Cliente cliente){
         try{
-            od.findById(order.getId());
-        }catch (DbException e){}
+            pd.selectListaPedido(cliente);
+        }catch (SQLException ex){
+            throw new DbException(ex.getMessage());
+        }    
     }
-    
-    public void findAll(){
-        try{
-            od.findAll();
-        }catch (DbException e){}
-    }*/
 }

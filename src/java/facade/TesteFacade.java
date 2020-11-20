@@ -6,7 +6,9 @@
 package facade;
 
 import dao.ClienteDAO;
+import java.util.List;
 import model.Cliente;
+import model.Produto;
 
 /**
  *
@@ -14,10 +16,13 @@ import model.Cliente;
  */
 public class TesteFacade {
     public static void main(String[] agrs){
-        ClienteFacade cf = new ClienteFacade();
+        ProdutoFacade pf = new ProdutoFacade();
         
-        System.out.println("quantidade de clientes = " + cf.quantidade());
-
+        List<Produto>lista = pf.listarProdutos();
+        
+        for (Produto p : lista){
+        System.out.println(p.toString());
+        }
 //        Cliente cli = new Cliente(0, "12233355599", "jose", "silva");
 //        cf.inserir(cli);
 //        

@@ -21,13 +21,32 @@
         
         <title>Clientes</title>
     </head>
-    <body>
+    <body style="background-color: #F8F9FA;">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="${pageContext.request.contextPath}/home">SGP</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
 
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="${pageContext.request.contextPath}/clientes/list">Clientes<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/produtos/list">Produtos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Pedidos</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
         <h2 class="text-center">Lista de Clientes</h2>
 
         <div class="row-sm">
             <div class="container">
-                <form action="novo">
+                <form action="${pageContext.request.contextPath}/clientes/novo" method="GET">
                     <button type="submit" class="btn btn-success">Novo Cliente</button>
                 </form>
                 <br>
@@ -65,7 +84,7 @@
                             <td class="cpf">${cliente.cpf}</td>
                             <td>
                                 <div class="form-row">
-                                    <form action="editar?id=" method="GET" style="margin-right: 8px">
+                                    <form action="${pageContext.request.contextPath}/clientes/editar?id=" method="GET" style="margin-right: 8px">
                                         <input type="hidden" name="id" value="${cliente.id}">
                                         <button type="submit" class="btn btn-primary">Editar</button>
                                     </form>
@@ -107,11 +126,16 @@
             </div>            
         </div>
         
+        <footer>
+            <div class="navbar navbar-light bg-ligh justify-content-center fixed-bottom">
+                <p style="padding-top: 30px;">© Engenharia de Software - 2020</p>
+            </div>
+        </footer> 
         <script>
             $('#delete').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget) 
-                var cat_id = button.data('catid') 
-                var modal = $(this)
+                var button = $(event.relatedTarget); 
+                var cat_id = button.data('catid'); 
+                var modal = $(this);
                 modal.find('.modal-body #cat_id').val(cat_id);
             });
         </script>
@@ -119,7 +143,6 @@
             $(document).ready(function(){
                 $('.cpf').mask('999.999.999-99');
             });
-        </script>  
-          
+        </script>    
     </body>
 </html>

@@ -19,7 +19,7 @@
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" integrity="sha512-0XDfGxFliYJPFrideYOoxdgNIvrwGTLnmK20xZbCAvPfLGQMzHUsaqZK8ZoH+luXGRxTrS46+Aq400nCnAT0/w==" crossorigin="anonymous"></script>
         
-        <title>Clientes</title>
+        <title>Produtos</title>
     </head>
     <body>
 
@@ -55,7 +55,7 @@
                         <th scope="col" style="width: 1%">Descrição</th>
                         <th scope="col" style="width: 1%">Ação</th>
                     </tr>
-                    <c:forEach var="cliente" items="${lista}">
+                    <c:forEach var="produto" items="${lista}">
                         <tr>
                             <td>${produto.id}</td>
                             <td>${produto.descrição}</td>
@@ -65,10 +65,6 @@
                                         <input type="hidden" name="id" value="${produto.id}">
                                         <button type="submit" class="btn btn-primary">Editar</button>
                                     </form>
-<!--                                    <form action="excluir" method="POST">
-                                        <input type="hidden" name="id" value="${cliente.id}"">
-                                        <button class="btn btn-danger" data-catid="${cliente.id}" data-toggle="modal" data-target="#delete">Excluir</button>
-                                    </form>-->
                                     <button class="btn btn-danger" data-catid="${produto.id}" data-toggle="modal" data-target="#delete">Excluir</button>
                                 </div>    
                             </td>

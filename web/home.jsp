@@ -34,7 +34,7 @@
                 <a class="nav-link" href="cliente">Clientes<span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Produtos</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/produtos">Produtos</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Pedidos</a>

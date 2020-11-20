@@ -21,6 +21,8 @@ public class Produto implements Serializable{
         this.descricao = description;
     }
 
+    public Produto(){}
+
     public int getId() {
         return id;
     }

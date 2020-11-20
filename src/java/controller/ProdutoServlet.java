@@ -5,7 +5,6 @@
  */
 package controller;
 
-import facade.ProdutoFacade;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -14,33 +13,39 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import facade.ProdutoFacade;
 import model.Produto;
 
 /**
  *
- * @author Jordi.Santos
+ * @author llarruda
  */
-@WebServlet(name = "ProdutoServlet", urlPatterns = {"/"})
+@WebServlet(name = "ProdutoServlet", urlPatterns = {"/produtos/*"})
 public class ProdutoServlet extends HttpServlet {
+
     
-    ProdutoFacade pf = new ProdutoFacade();
+    ProdutoFacade produtoFacade = new ProdutoFacade();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String acao = request.getServletPath();
-        System.out.println(acao);
+        String acao = request.getPathInfo();
+        System.out.println(">>> " + acao);
         try {
             switch (acao) {
-                case "/editar":
-                    atualizarProduto(request, response);
+                case "/edit":
+                    editarProduto(request, response);
                     break;
-                case "/novo":
+                case "/new":
                     novoProduto(request, response);
                     break;
+                case "/list":
+                    listarProdutos(request, response);
+                    break;
                 default:
-                    findAll(request, response);
+                    listarProdutos(request, response);
+                    //response.sendRedirect(request.getContextPath() + "/home");
                     break;
             }
             // TRATAR EXCEÇÃO    
@@ -53,67 +58,93 @@ public class ProdutoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String acao = request.getServletPath();
+        String acao = request.getPathInfo();
         System.out.println(acao);
         try {
             switch (acao) {
-                case "/atualizar":
-                    update(request, response);
+                case "/update":
+                    atualizarProduto(request, response);
                     break;
-                case "/criar":
-                    insert(request, response);
+                case "/create":
+                    inserirProduto(request, response);
                     break;
-                case "/excluir":
-                    deleteById(request, response);
+                case "/delete":
+                    deletarProduto(request, response);
                     break;
                 default:
-                    findAll(request, response);
+                    listarProdutos(request, response);
+                    //response.sendRedirect(request.getContextPath() + "/home");
                     break;
             }
             // TRATAR EXCEÇÃO    
         } catch (ServletException ex) {
             throw new ServletException(ex);
         }
-
     }
 
-    protected void findAll(HttpServletRequest request, HttpServletResponse response)
+    protected void listarProdutos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        List lista = pf.findAll();
-        for(int i=0; i < lista.size(); i++){
-            System.out.println(lista.get(i));
-        }
+        List lista = produtoFacade.listarProdutos();
+
         request.setAttribute("lista", lista);
         RequestDispatcher rd = getServletContext()
                 .getRequestDispatcher("/produtos.jsp");
         rd.forward(request, response);
     }
 
-    protected void insert(HttpServletRequest request, HttpServletResponse response)
+    protected void inserirProduto(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String descricao = request.getParameter("descricao");
+        
         if(descricao.isEmpty()) {
-            request.setAttribute("msgerro", "Nome não pode ser vazio.");
+            request.setAttribute("msgerro", "Descricão do Produto não informada.");
             RequestDispatcher rd = request.getRequestDispatcher("/erro.jsp");
             rd.forward(request, response);
             return;
+        }   
+
+        List<Produto> listaProduto = produtoFacade.listarProdutos();
+        boolean descricaoExists = false;
+        for (int i = 0; i < listaProduto.size(); i++) {
+            if (descricao.equals(listaProduto.get(i).getDescricao())) {
+                descricaoExists = true;
+                break;
+            }
         }
-            Produto p = new Produto(0, descricao);
-            //System.out.println(c.getNome() + c.getSobreNome() + c.getCpf());
-            pf.insert(p);
+
+        if (descricaoExists) {
+            request.getSession().setAttribute("descricaoExists", descricaoExists);
+            response.sendRedirect("new");
+        } else {
+            Produto produto = new Produto(1, descricao);
+            produtoFacade.inserir(produto);
 
             boolean sucesso = true;
             request.getSession().setAttribute("sucessomsg", sucesso);
 
-            response.sendRedirect("produtos");
-    } // fim do insert
+            response.sendRedirect("list");
+        }
+    }
 
     protected void novoProduto(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        RequestDispatcher rd = request.getRequestDispatcher("novoproduto.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/novoProduto.jsp");
+        rd.forward(request, response);
+    }
+
+    protected void editarProduto(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        Produto produto = produtoFacade.selectProdById(id);
+
+        request.setAttribute("produto", produto);
+        RequestDispatcher rd = getServletContext()
+                .getRequestDispatcher("/editarProduto.jsp");
         rd.forward(request, response);
     }
 
@@ -121,35 +152,38 @@ public class ProdutoServlet extends HttpServlet {
             throws ServletException, IOException {
 
         int id = Integer.parseInt(request.getParameter("id"));
-
-        Produto p = pf.findById(id);
-
-        request.setAttribute("produto", p);
-        RequestDispatcher rd = getServletContext()
-                .getRequestDispatcher("/editarproduto.jsp");
-        rd.forward(request, response);
-    }
-
-    protected void update(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        int id = Integer.parseInt(request.getParameter("id"));
         String descricao = request.getParameter("descricao");
-
-            Produto p = new Produto(id, descricao);
-            pf.update(p);
+        
+        // TODO: consultar cliente por cpf, se houver mais de 1 registro ou se o registro for único, mas o id do cliente for diferente do registro editado no momento, não permitir editar
+        List<Produto> listaProduto = produtoFacade.listarProdutos();
+        boolean descricaoExists = false;
+        for (int i = 0; i < listaProduto.size(); i++) {
+            if (descricao.equals(listaProduto.get(i).getDescricao())) {
+                descricaoExists = true;
+                break;
+            }
+        }
+        
+        if (descricaoExists) {
+            request.getSession().setAttribute("descricaoExists", descricaoExists);
+            String previousURL = request.getHeader("referer");
+            response.sendRedirect(previousURL);
+        } else {
+            Produto produto = new Produto(id, descricao);
+            produtoFacade.atualizar(produto);
 
             boolean alterar = true;
             request.getSession().setAttribute("alterarmsg", alterar);
 
-            response.sendRedirect("produtos");
+            response.sendRedirect("clientes");
+        }
     }
 
-    protected void deleteById(HttpServletRequest request, HttpServletResponse response)
+    protected void deletarProduto(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         int id = Integer.parseInt(request.getParameter("id"));
-        pf.deleteById(id);
+        produtoFacade.deletar(id);
 
         boolean excluir = true;
         request.getSession().setAttribute("excluirmsg", excluir);

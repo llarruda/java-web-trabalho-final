@@ -1,7 +1,7 @@
 <%-- 
-    Document   : newjsp
-    Created on : 22/10/2020, 20:16:15
-    Author     : Junior
+    Document   : produtos
+    Created on : Nov 17, 2020, 8:42:22 AM
+    Author     : llarruda
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -19,15 +19,34 @@
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" integrity="sha512-0XDfGxFliYJPFrideYOoxdgNIvrwGTLnmK20xZbCAvPfLGQMzHUsaqZK8ZoH+luXGRxTrS46+Aq400nCnAT0/w==" crossorigin="anonymous"></script>
         
-        <title>Clientes</title>
+        <title>Produtos</title>
     </head>
-    <body>
+    <body style="background-color: #F8F9FA;">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="${pageContext.request.contextPath}/home">SGP</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
 
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/clientes/list">Clientes</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="${pageContext.request.contextPath}/produtos/list">Produtos<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Pedidos</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
         <h2 class="text-center">Lista de Produtos</h2>
 
         <div class="row-sm">
             <div class="container">
-                <form action="novo">
+                <form action="${pageContext.request.contextPath}/produtos/new" method="GET">
                     <button type="submit" class="btn btn-success">Novo Produto</button>
                 </form>
                 <br>
@@ -51,17 +70,17 @@
                 </c:if>                   
                 <table class="table table-bordered">
                     <tr>
-                        <th scope="col" style="width: 1%">ID</th>
+                        <th scope="col" style="width: 0.2%">ID</th>
                         <th scope="col" style="width: 1%">Descrição</th>
-                        <th scope="col" style="width: 1%">Ação</th>
+                        <th scope="col" style="width: 0.2%">Ação</th>
                     </tr>
-                    <c:forEach var="cliente" items="${lista}">
+                    <c:forEach var="produto" items="${lista}">
                         <tr>
                             <td>${produto.id}</td>
-                            <td>${produto.descrição}</td>
+                            <td>${produto.descricao}</td>
                             <td>
                                 <div class="form-row">
-                                    <form action="editar?id=" method="GET" style="margin-right: 8px">
+                                    <form action="${pageContext.request.contextPath}/produtos/edit?id=" method="GET" style="margin-right: 8px">
                                         <input type="hidden" name="id" value="${produto.id}">
                                         <button type="submit" class="btn btn-primary">Editar</button>
                                     </form>
@@ -87,11 +106,10 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form action="excluir" method="POST">
+                        <form action="delete" method="POST">
                             <div class="modal-body">
-                                Deseja excluir esse produto?
+                                Deseja excluir esse cliente?
                                 <input type="hidden" name="id" id="cat_id" value="">
-
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
@@ -103,13 +121,23 @@
             </div>            
         </div>
         
+        <footer>
+            <div class="navbar navbar-light bg-ligh justify-content-center fixed-bottom">
+                <p style="padding-top: 30px;">© Engenharia de Software - 2020</p>
+            </div>
+        </footer> 
         <script>
             $('#delete').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget) 
-                var cat_id = button.data('catid') 
-                var modal = $(this)
+                var button = $(event.relatedTarget); 
+                var cat_id = button.data('catid'); 
+                var modal = $(this);
                 modal.find('.modal-body #cat_id').val(cat_id);
             });
-        </script>        
+        </script>
+        <script>
+            $(document).ready(function(){
+                $('.cpf').mask('999.999.999-99');
+            });
+        </script>    
     </body>
 </html>

@@ -17,9 +17,9 @@ public class Pedido implements Serializable{
     private int id;
     private LocalDateTime date;
     private Cliente customer;
-    private List<ItemDePedido> orderItens;
+    private List<ItemDoPedido> orderItens;
 
-    public Pedido(int id, LocalDateTime data, Cliente cliente, List<ItemDePedido> itensPedido) {
+    public Pedido(int id, LocalDateTime data, Cliente cliente, List<ItemDoPedido> itensPedido) {
         this.id = id;
         this.date = data;
         this.customer = cliente;
@@ -50,7 +50,7 @@ public class Pedido implements Serializable{
         this.customer = customer;
     }
 
-    public List<ItemDePedido> getOrderItens() {
+    public List<ItemDoPedido> getOrderItens() {
         return orderItens;
     }
         
