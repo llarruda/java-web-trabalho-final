@@ -1,6 +1,6 @@
 <%-- 
-    Document   : home
-    Created on : Nov 10, 2020, 4:23:21 PM
+    Document   : pedidos
+    Created on : Nov 19, 2020, 11:10:03 AM
     Author     : llarruda
 --%>
 
@@ -19,11 +19,11 @@
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" integrity="sha512-0XDfGxFliYJPFrideYOoxdgNIvrwGTLnmK20xZbCAvPfLGQMzHUsaqZK8ZoH+luXGRxTrS46+Aq400nCnAT0/w==" crossorigin="anonymous"></script>
         
-        <title>SGP</title>
+        <title>Pedidos</title>
     </head>
     <body style="background-color: #F8F9FA;">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <a class="navbar-brand" href="#">SGP</a>
+          <a class="navbar-brand" href="${pageContext.request.contextPath}/home">SGP</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -42,8 +42,15 @@
             </ul>
           </div>
         </nav>
-        <div class="container">
-            <p class="lead">Sistema de Gestão de Pedidos</p>
+        <h2 class="text-center">Lista de Pedidos</h2>
+
+        <div class="row-sm">
+            <div class="container">
+                <form action="${pageContext.request.contextPath}/pedidos/novo" method="GET">
+                    <button type="submit" class="btn btn-success">Novo Pedido</button>
+                </form>
+                <br>
+            </div>
         </div>
     <footer>
         <div class="navbar navbar-light bg-ligh justify-content-center fixed-bottom">

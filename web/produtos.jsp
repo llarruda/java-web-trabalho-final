@@ -37,7 +37,7 @@
                 <a class="nav-link" href="${pageContext.request.contextPath}/produtos/list">Produtos<span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Pedidos</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/pedidos/list">Pedidos</a>
               </li>
             </ul>
           </div>
