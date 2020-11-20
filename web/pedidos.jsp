@@ -50,6 +50,55 @@
                     <button type="submit" class="btn btn-success">Novo Pedido</button>
                 </form>
                 <br>
+                <c:if test="${sucessomsg == true}">
+                    <div class="alert alert-success" role="alert">
+                        Produto cadastrado!
+                    </div>
+                    <c:remove var="sucessomsg" scope="session"/>
+                </c:if>
+                <c:if test="${excluirmsg == true}">
+                    <div class="alert alert-danger" role="alert">
+                        Produto excluido!
+                    </div>
+                    <c:remove var="excluirmsg" scope="session"/>
+                </c:if>
+                <c:if test="${alterarmsg == true}">
+                    <div class="alert alert-primary" role="alert">
+                        Pedido alterado com sucesso!
+                    </div>
+                    <c:remove var="alterarmsg" scope="session"/>
+                </c:if>                   
+                <table class="table table-bordered">
+                    <tr>
+                        <th scope="col" style="width: 0.2%">ID</th>
+                        <th scope="col" style="width: 0.5%">Data</th>
+                        <th scope="col" style="width: 0.2%">CPF</th>
+                        <th scope="col" style="width: 2.5%">Cliente</th>
+                         <th scope="col" style="width: 0.5%">Ação</th>
+                    </tr>
+                    <c:forEach var="pedido" items="${lista}">
+                        <tr>
+                            <td>${pedido.id}</td>
+                            <td>${pedido.data}</td>
+                            <td>${pedido.getCliente().getCpf()}</td>
+                            <td>${pedido.getCliente().getNome()} ${pedido.getCliente().getSobreNome()}</td>
+                            <td>
+                                <div class="form-row">
+                                    <form action="${pageContext.request.contextPath}/pedidos/edit?id=" method="GET" style="margin-right: 8px">
+                                        <input type="hidden" name="id" value="${produto.id}">
+                                        <button type="submit" class="btn btn-primary">Editar</button>
+                                    </form>
+<!--                                    <form action="excluir" method="POST">
+                                        <input type="hidden" name="id" value="${cliente.id}"">
+                                        <button class="btn btn-danger" data-catid="${cliente.id}" data-toggle="modal" data-target="#delete">Excluir</button>
+                                    </form>-->
+                                    <button class="btn btn-danger" data-catid="${produto.id}" data-toggle="modal" data-target="#delete">Excluir</button>
+                                </div>    
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
             </div>
         </div>
     <footer>

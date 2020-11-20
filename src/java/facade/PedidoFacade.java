@@ -28,11 +28,11 @@ public class PedidoFacade {
         }
     }
     
-    public List<Pedido> listarPedidos(Cliente cliente) {
+    public List<Pedido> listarPedidos() {
         List<Pedido> pedidoLista = null;
         
         try {
-            pedidoLista = pedidoDAO.selectListaPedido(cliente);
+            pedidoLista = pedidoDAO.selectPedidos();
         } catch (SQLException ex) {
             Logger.getLogger(PedidoFacade.class.getName()).log(Level.SEVERE, null, ex);
         }

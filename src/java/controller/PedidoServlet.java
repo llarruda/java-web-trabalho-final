@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Cliente;
+import model.Pedido;
 
 /**
  *
@@ -24,7 +25,7 @@ import model.Cliente;
 @WebServlet(name = "PedidoServlet", urlPatterns = {"/pedidos/*"})
 public class PedidoServlet extends HttpServlet {
 
-    PedidoFacade produtoFacade = new PedidoFacade();
+    PedidoFacade pedidoFacade = new PedidoFacade();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -41,10 +42,10 @@ public class PedidoServlet extends HttpServlet {
                     novoProduto(request, response);
                     break;*/
                 case "/list":
-                    listarPedido(request, response);
+                    listarPedidos(request, response);
                     break;
                 default:
-                    listarPedido(request, response);
+                    listarPedidos(request, response);
                     //response.sendRedirect(request.getContextPath() + "/home");
                     break;
             }
@@ -72,7 +73,7 @@ public class PedidoServlet extends HttpServlet {
                     deletarProduto(request, response);
                     break;*/
                 default:
-                    listarPedido(request, response);
+                    listarPedidos(request, response);
                     //response.sendRedirect(request.getContextPath() + "/home");
                     break;
             }
@@ -82,20 +83,17 @@ public class PedidoServlet extends HttpServlet {
         }
     }
 
-    protected void listarPedido(HttpServletRequest request, HttpServletResponse response)
+    protected void listarPedidos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        /*String nome = request.getParameter("cliente_id");
+        List<Pedido> lista = pedidoFacade.listarPedidos();
         
-
-        List lista = produtoFacade.listarPedidos(cliente);
-
         request.setAttribute("lista", lista);
         RequestDispatcher rd = getServletContext()
                 .getRequestDispatcher("/pedidos.jsp");
-        rd.forward(request, response);*/
+        rd.forward(request, response);
         
-        response.sendRedirect(request.getContextPath() + "/pedidos.jsp");
+        //response.sendRedirect(request.getContextPath() + "/pedidos.jsp");
     }
 
     @Override
