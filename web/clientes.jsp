@@ -46,9 +46,17 @@
 
         <div class="row-sm">
             <div class="container">
-                <form action="${pageContext.request.contextPath}/clientes/novo" method="GET">
-                    <button type="submit" class="btn btn-success">Novo Cliente</button>
-                </form>
+                <div class="navbar navbar-expand-lg">
+                    <ul class="navbar-nav mr-auto">
+                        <form action="${pageContext.request.contextPath}/clientes/novo" method="GET">
+                            <button type="submit" class="btn btn-success">Novo Cliente</button>
+                        </form>
+                    </ul>       
+                    <form class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/clientes/buscar" method="Post">
+                        <input name="cpf" class="cpf form-control mr-sm-2" type="search" placeholder="CPF" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar Cliente</button>
+                    </form>    
+                </div>
                 <br>
                 <c:if test="${sucessomsg == true}">
                     <div class="alert alert-success" role="alert">
@@ -67,7 +75,13 @@
                         Cliente alterado com sucesso!
                     </div>
                     <c:remove var="alterarmsg" scope="session"/>
-                </c:if>                   
+                </c:if>
+                <c:if test="${cpfNotFound == true}">
+                    <div class="alert alert-primary" role="alert">
+                        O CPF <span class="cpf" style="font-weight: bold;">${cpf_consultado}</span> não consta em nossos registros. Cliente não cadastrado!
+                    </div>
+                    <c:remove var="cpfNotFound" scope="session"/>
+                </c:if>
                 <table class="table table-bordered">
                     <tr>
                         <th scope="col" style="width: 1%">ID</th>

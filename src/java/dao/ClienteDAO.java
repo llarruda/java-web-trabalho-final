@@ -22,8 +22,9 @@ import model.Cliente;
  */
 public class ClienteDAO {
     private final String stmtInserir = "INSERT INTO cliente(cpf, nome, sobrenome) VALUES(?,?,?)";
-    private final String stmtConsultar = "SELECT * FROM cliente WHERE id = ?";
-    private final String stmtListar = "SELECT * FROM cliente";
+    private final String stmtConsultarPorId = "SELECT id, cpf, nome, sobrenome FROM cliente WHERE id = ?";
+    private final String stmtConsultarPorCpf = "SELECT id, cpf, nome, sobrenome FROM cliente WHERE cpf = ?";
+    private final String stmtListar = "SELECT id, cpf, nome, sobrenome FROM cliente";
     private final String stmtAtualizar = "UPDATE cliente SET cpf = ?, nome = ?, sobrenome = ? WHERE id = ?";
     private final String stmtExcluir = "DELETE FROM cliente WHERE ID = ?";
     private final String stmtQnt = "SELECT COUNT(*) FROM cliente";
@@ -52,14 +53,15 @@ public class ClienteDAO {
         }
     }
     
-    public Cliente consultarCliente(int id) {
-    Connection conn = null;
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
-    Cliente clienteLido;
+    public Cliente consultarClientePorId(int id) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Cliente clienteLido;
+        
         try{
             conn = ConnectionFactory.getConnection();
-            stmt = conn.prepareStatement(stmtConsultar);
+            stmt = conn.prepareStatement(stmtConsultarPorId);
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
             if(rs.next()){
@@ -77,7 +79,37 @@ public class ClienteDAO {
             try{stmt.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar stmt: " + ex.getMessage());}
             try{conn.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar conexao: " + ex.getMessage());}
         }
-
+    }
+    
+    public Cliente consultarClientePorCpf(String cpf) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Cliente clienteLido;
+        
+        try{
+            conn = ConnectionFactory.getConnection();
+            stmt = conn.prepareStatement(stmtConsultarPorCpf);
+            stmt.setString(1, cpf);
+            rs = stmt.executeQuery();
+            if(rs.next()){
+                clienteLido = new Cliente(rs.getInt("id"), rs.getString("cpf"), rs.getString("nome"), rs.getString("sobrenome"));
+                
+                return clienteLido;
+            }else{
+                throw new RuntimeException("Não existe cliente com este CPF: " + cpf);
+            }
+            
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao consultar cliente no banco de dados por CPF. " + ex.getMessage());
+        } catch(RuntimeException ex) {
+            return null;
+        }
+            finally{
+            try{rs.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar result set: " + ex.getMessage());}
+            try{stmt.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar stmt: " + ex.getMessage());}
+            try{conn.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar conexao: " + ex.getMessage());}
+        }
     }
     
     public List<Cliente> listarClientes() {

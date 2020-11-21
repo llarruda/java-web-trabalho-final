@@ -29,7 +29,11 @@ public class ClienteFacade {
     }
     
     public Cliente buscar(int id) {
-        return clienteDAO.consultarCliente(id);
+        return clienteDAO.consultarClientePorId(id);
+    }
+    
+    public Cliente buscarPorCpf(String cpf) {
+        return clienteDAO.consultarClientePorCpf(cpf);
     }
     
     public void atualizar(Cliente cliente) {
@@ -42,7 +46,7 @@ public class ClienteFacade {
     }
     
     public void deletar(int id) {
-        Cliente cliente = clienteDAO.consultarCliente(id);
+        Cliente cliente = clienteDAO.consultarClientePorId(id);
         clienteDAO.excluirCliente(cliente);
     }
     

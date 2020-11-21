@@ -7,6 +7,7 @@ package controller;
 
 import facade.ClienteFacade;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -69,6 +70,9 @@ public class ClienteServlet extends HttpServlet {
                     break;
                 case "/excluir":
                     deletarCliente(request, response);
+                    break;
+                case "/buscar":
+                    buscarClientePorCpf(request, response);
                     break;
                 default:
                     // listarCliente(request, response);
@@ -186,8 +190,10 @@ public class ClienteServlet extends HttpServlet {
                 break;
             }
         }
-
-        if (existecpf) {
+        
+        Cliente cliente = cf.buscar(id);
+        
+        if ((existecpf) && !cliente.getCpf().equals(cpf)) {
             request.getSession().setAttribute("existecpf", existecpf);
             String previousURL = request.getHeader("referer");
             response.sendRedirect(previousURL);
@@ -212,6 +218,37 @@ public class ClienteServlet extends HttpServlet {
         request.getSession().setAttribute("excluirmsg", excluir);
 
         response.sendRedirect("clientes");
+    }
+    
+    protected void buscarClientePorCpf(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String cpf = request.getParameter("cpf");
+        
+        cpf = cpf.replaceAll("\\.", "");
+        cpf = cpf.replaceAll("-", "");
+        
+        ClienteFacade cf = new ClienteFacade();
+
+        Cliente cliente = cf.buscarPorCpf(cpf);
+        
+        List<Cliente> lista = new ArrayList<Cliente>();
+        
+        if (cliente == null) {
+            boolean cpfNotFound = true;
+            request.getSession().setAttribute("cpfNotFound", cpfNotFound);
+            request.getSession().setAttribute("cpf_consultado", cpf);
+            
+            lista = cf.listar();    
+        } else {
+            lista.add(cliente);
+        }
+
+        request.setAttribute("lista", lista);
+
+        RequestDispatcher rd = getServletContext()
+            .getRequestDispatcher("/clientes.jsp");
+        rd.forward(request, response);
     }
 
     @Override
