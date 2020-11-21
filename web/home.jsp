@@ -30,19 +30,16 @@
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/clientes/list">Clientes<span class="sr-only">(current)</span></a>
+              <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/clientes/list">Clientes</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Produtos</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/produtos/list">Produtos</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Pedidos</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/pedidos/list">Pedidos</a>
               </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Novo</button>
-            </form>
           </div>
         </nav>
         <div class="container">

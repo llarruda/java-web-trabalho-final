@@ -57,7 +57,7 @@
                 </c:if>
                 <div class="card">
                     <div class="card-body">
-                        <form action="${pageContext.request.contextPath}/clientes/criar" method="POST">
+                        <form action="${pageContext.request.contextPath}/clientes/criar" method="POST" accept-charset="iso-8859-1, utf-8">
                             <div class="form-group">
                                 <label>Nome</label>
                                 <input type="text" class="form-control" name="nome" required minlength="3" maxlength="80">                        

@@ -175,6 +175,7 @@ public class ClienteServlet extends HttpServlet {
         cpf = cpf.replaceAll("\\.", "");
         cpf = cpf.replaceAll("-", "");
         
+      
         List<Cliente> listaCliente = cf.listar();
         boolean existecpf = false;
         for (int i = 0; i < listaCliente.size(); i++) {
