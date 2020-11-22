@@ -35,4 +35,19 @@ public class ProdutoFacadeTest {
         
         System.out.println(">>>>"  + produtoLista.get(2).getDescricao());
     }
+    
+     @Test
+    public void searchProdutoByDesc() {
+        List<Produto> produtoLista;
+        
+        ProdutoFacade produtoFacade = new ProdutoFacade();
+        
+        produtoLista = produtoFacade.searchProdutoByDesc("Can");
+        
+        if (produtoLista == null) {
+            System.err.println("Retornando nulo, produto não encontrado");
+        } else {
+            System.out.println(produtoLista.get(0).getDescricao());
+        }
+    }
 }

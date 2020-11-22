@@ -26,6 +26,7 @@ public class ProdutoDAO {
     private final String deleteProduto = "DELETE FROM produto WHERE id = ? AND id NOT IN (SELECT id_produto FROM item_do_pedido);";
     private final String selectListaProduto = "SELECT id, descricao FROM produto;";
     private final String countProduto = "SELECT COUNT(*) FROM produto";
+    private final String searchProdutoByDesc = "SELECT id, descricao FROM produto WHERE descricao LIKE ?;";
     
     /**
     * Método para inserir um produto
@@ -239,7 +240,7 @@ public class ProdutoDAO {
 
                 rs = pstmtSelect.executeQuery();
                 
-                produtos = new ArrayList();
+                //produtos = new ArrayList();
 
                 while (rs.next()) {
                     Produto produto = new Produto(
@@ -293,5 +294,49 @@ public class ProdutoDAO {
             try { con.close(); } catch (SQLException e) {throw new RuntimeException("Falha ao fechar a conexão com o banco de dados.");}
         }
         return quantidadeProdutos;
+    }
+    
+    public List<Produto> searchProdutoByDesc(String descricao) {
+        Connection conn = null;
+        PreparedStatement pstmtSelect = null;
+        ResultSet rs = null;
+        List<Produto> produtosRetornados = new ArrayList();
+        
+        try{
+            conn = ConnectionFactory.getConnection();
+            pstmtSelect = conn.prepareStatement(searchProdutoByDesc);
+            
+            // @DEGUB
+            System.out.println(pstmtSelect);
+            
+            
+            pstmtSelect.setString(1, "%" + descricao + "%");
+            
+            // @DEGUB
+            System.out.println(pstmtSelect);
+            
+            rs = pstmtSelect.executeQuery();
+
+            while (rs.next()) {
+                Produto produto = new Produto(
+                    rs.getInt("id"),
+                    rs.getString("descricao")
+                );
+                
+                produtosRetornados.add(produto);
+            }
+            
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao consultar produtos no banco de dados por descrição. " + ex.getMessage());
+        } catch(Exception ex) {
+            return null;
+        }
+            finally{
+            try{rs.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar result set: " + ex.getMessage());}
+            try{pstmtSelect.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar stmt: " + ex.getMessage());}
+            try{conn.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar conexao: " + ex.getMessage());}
+        }
+        
+        return produtosRetornados;
     }
 }

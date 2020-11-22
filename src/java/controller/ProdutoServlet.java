@@ -71,6 +71,9 @@ public class ProdutoServlet extends HttpServlet {
                 case "/delete":
                     deletarProduto(request, response);
                     break;
+                case "/search":
+                    searchProdutoByDesc(request, response);
+                    break;
                 default:
                     listarProdutos(request, response);
                     //response.sendRedirect(request.getContextPath() + "/home");
@@ -189,6 +192,33 @@ public class ProdutoServlet extends HttpServlet {
         request.getSession().setAttribute("excluirmsg", excluir);
 
         response.sendRedirect("produtos");
+    }
+    
+    protected void searchProdutoByDesc(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String descricao = request.getParameter("descricao");
+        
+        ProdutoFacade produtoFacade = new ProdutoFacade();
+
+        //Produto produto = produtoFacade.searchProdutoByDesc(descricao);
+        
+        List<Produto> lista = produtoFacade.searchProdutoByDesc(descricao);
+        
+        if (lista.isEmpty()) {
+            System.out.println(">>>>> TESTE");
+            boolean produtoNotFound = true;
+            request.getSession().setAttribute("produtoNotFound", produtoNotFound);
+            request.getSession().setAttribute("descricao", descricao);
+            lista = produtoFacade.listarProdutos();
+        }
+        
+
+        request.setAttribute("lista", lista);
+
+        RequestDispatcher rd = getServletContext()
+            .getRequestDispatcher("/produtos.jsp");
+        rd.forward(request, response);
     }
 
     @Override

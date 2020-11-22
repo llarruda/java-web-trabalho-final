@@ -77,4 +77,11 @@ public class ProdutoFacade {
             Logger.getLogger(ProdutoFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public List<Produto> searchProdutoByDesc(String descricao) {
+        List<Produto> produtos = produtoDAO.searchProdutoByDesc(descricao);
+        
+        return produtos;
+    }
+    
 }

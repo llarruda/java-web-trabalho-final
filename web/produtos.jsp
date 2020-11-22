@@ -46,9 +46,17 @@
 
         <div class="row-sm">
             <div class="container">
-                <form action="${pageContext.request.contextPath}/produtos/new" method="GET">
-                    <button type="submit" class="btn btn-success">Novo Produto</button>
-                </form>
+                <div class="navbar navbar-expand-lg">
+                    <ul class="navbar-nav mr-auto">
+                        <form action="${pageContext.request.contextPath}/produtos/new" method="GET" accept-charset="iso-8859-1, utf-8">
+                            <button type="submit" class="btn btn-success">Novo Produto</button>
+                        </form>
+                    </ul>       
+                    <form class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/produtos/search" method="POST" accept-charset="iso-8859-1, utf-8">
+                        <input name="descricao" class="form-control mr-sm-2" type="search" placeholder="Descrição" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar Produto</button>
+                    </form>    
+                </div>
                 <br>
                 <c:if test="${sucessomsg == true}">
                     <div class="alert alert-success" role="alert">
@@ -67,7 +75,13 @@
                         Produto alterado com sucesso!
                     </div>
                     <c:remove var="alterarmsg" scope="session"/>
-                </c:if>                   
+                </c:if>
+                <c:if test="${produtoNotFound == true}">
+                    <div class="alert alert-primary" role="alert">
+                        O Produto <span style="font-weight: bold;">${descricao}</span> não consta em nossos registros. Produto não cadastrado!
+                    </div>
+                    <c:remove var="produtoNotFound" scope="session"/>
+                </c:if>
                 <table class="table table-bordered">
                     <tr>
                         <th scope="col" style="width: 0.2%">ID</th>
