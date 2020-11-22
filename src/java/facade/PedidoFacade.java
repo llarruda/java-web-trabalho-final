@@ -47,6 +47,19 @@ public class PedidoFacade {
         return pedido;
     }
     
+    public List<Pedido> listarPedidosCliente(Cliente cliente) {
+        
+        List<Pedido> pedidoLista = null;
+        
+        try {
+            pedidoLista = pedidoDAO.selectPedidosPorCliente(cliente);
+        } catch (SQLException ex) {
+            Logger.getLogger(PedidoFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return pedidoLista;
+    }
+    
     public void deletar(Pedido pedido) {
         try {
             pedidoDAO.deletePedido(pedido);

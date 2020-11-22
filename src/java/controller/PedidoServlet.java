@@ -5,9 +5,12 @@
  */
 package controller;
 
+import facade.ClienteFacade;
 import facade.PedidoFacade;
+import facade.ProdutoFacade;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Cliente;
 import model.Pedido;
+import model.Produto;
 
 /**
  *
@@ -37,10 +41,10 @@ public class PedidoServlet extends HttpServlet {
             switch (acao) {
                 /*case "/edit":
                     editarProduto(request, response);
-                    break;
-                case "/new":
-                    novoProduto(request, response);
                     break;*/
+                case "/new":
+                    novoPedido(request, response);
+                    break;
                 case "/list":
                     listarPedidos(request, response);
                     break;
@@ -65,13 +69,22 @@ public class PedidoServlet extends HttpServlet {
             switch (acao) {
                 /*case "/update":
                     atualizarProduto(request, response);
-                    break;
+                    break;*/
                 case "/create":
-                    inserirProduto(request, response);
+                    registerPedido(request, response);
                     break;
-                case "/delete":
+                /*case "/delete":
                     deletarProduto(request, response);
                     break;*/
+                case "/teste":
+                    searchProdutoByDesc(request, response);
+                    break;
+                case "/addItens":
+                    addItensPedido(request, response);
+                    break;
+                case "/search":
+                    searchPedidoByCliente(request, response);
+                    break;
                 default:
                     listarPedidos(request, response);
                     //response.sendRedirect(request.getContextPath() + "/home");
@@ -87,7 +100,9 @@ public class PedidoServlet extends HttpServlet {
             throws ServletException, IOException {
         
         List<Pedido> lista = pedidoFacade.listarPedidos();
-        
+        for (Pedido p : lista) {
+                System.out.printf("LISTA DE PEDIDOS \n%s %d\n", p.getCliente().getCpf(), p.getCliente().getId());
+        }
         request.setAttribute("lista", lista);
         RequestDispatcher rd = getServletContext()
                 .getRequestDispatcher("/pedidos.jsp");
@@ -95,7 +110,129 @@ public class PedidoServlet extends HttpServlet {
         
         //response.sendRedirect(request.getContextPath() + "/pedidos.jsp");
     }
+    
+    public void novoPedido(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        RequestDispatcher rd = request.getRequestDispatcher("/novoPedido.jsp");
+        rd.forward(request, response);
+    }
+    
+    public void registerPedido(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        PedidoFacade pedidoFacade = new PedidoFacade();
+        ClienteFacade clienteFacade = new ClienteFacade();
+        ProdutoFacade produtoFacade = new ProdutoFacade();
+        
+        LocalDateTime dataPedido = LocalDateTime.now();
+        
+        String cpf = request.getParameter("cpf");
+        
+        cpf = cpf.replaceAll("\\.", "");
+        cpf = cpf.replaceAll("-", "");
+        
+        Cliente cliente = clienteFacade.buscarPorCpf(cpf);
+        
+        if (cliente == null) {
+            boolean cpfNotFound = true;
+            request.getSession().setAttribute("cpfNotFound", cpfNotFound);
+            request.getSession().setAttribute("cpf_consultado", cpf);
+            String previousURL = request.getHeader("referer");
+            response.sendRedirect(previousURL);
+        } else {
+            
+            Pedido pedido = new Pedido(1, dataPedido, cliente, null);
 
+            pedidoFacade.inserir(pedido);
+            
+            request.getSession().setAttribute("pedido_id", pedido.getId());
+            
+            boolean pedidoInserido = true;
+            request.getSession().setAttribute("sucessomsg", pedidoInserido);
+            
+            
+            List listaProdutos = produtoFacade.listarProdutos();
+
+            request.setAttribute("listaProdutos", listaProdutos);
+            
+            //response.sendRedirect("pedidos");
+            
+            //RequestDispatcher rd = request.getRequestDispatcher("/addItensPedido.jsp");
+            //rd.forward(request, response);
+            
+            RequestDispatcher rd = getServletContext()
+                .getRequestDispatcher("/addItensPedido.jsp");
+            rd.forward(request, response);
+        }
+    }
+    
+    protected void searchProdutoByDesc(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String descricao = request.getParameter("descricao");
+        
+        ProdutoFacade produtoFacade = new ProdutoFacade();
+
+        //Produto produto = produtoFacade.searchProdutoByDesc(descricao);
+        
+        List<Produto> lista = produtoFacade.searchProdutoByDesc(descricao);
+        
+        if (lista.isEmpty()) {
+            System.out.println(">>>>> TESTE");
+            boolean produtoNotFound = true;
+            request.getSession().setAttribute("produtoNotFound", produtoNotFound);
+            request.getSession().setAttribute("descricao", descricao);
+            lista = produtoFacade.listarProdutos();
+        }
+        
+
+        request.setAttribute("lista", lista);
+
+        RequestDispatcher rd = getServletContext()
+            .getRequestDispatcher("/produtos.jsp");
+        rd.forward(request, response);
+    }
+    
+     protected void searchPedidoByCliente(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String cpf = request.getParameter("cpf");
+
+        cpf = cpf.replaceAll("\\.", "");
+        cpf = cpf.replaceAll("-", "");
+
+        ClienteFacade clienteFacade = new ClienteFacade();
+
+        Cliente cliente = clienteFacade.buscarPorCpf(cpf);
+
+        PedidoFacade pedidoFacade = new PedidoFacade();
+        
+        List<Pedido> lista = pedidoFacade.listarPedidosCliente(cliente);
+
+        if (lista.isEmpty()) {
+             System.out.println(">>>>> TESTE");
+             boolean produtoNotFound = true;
+             request.getSession().setAttribute("pedidosNotFound", produtoNotFound);
+             request.getSession().setAttribute("cpf_utilizado", cpf);
+
+         }
+
+         request.setAttribute("lista", lista);
+         RequestDispatcher rd = getServletContext()
+                 .getRequestDispatcher("/pedidos.jsp");
+         rd.forward(request, response);
+    }
+    
+    public void addItensPedido(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+       
+        
+        RequestDispatcher rd = request.getRequestDispatcher("/addItensPedido.jsp");
+            rd.forward(request, response);
+    }
+    
     @Override
     public String getServletInfo() {
         return "Short description";

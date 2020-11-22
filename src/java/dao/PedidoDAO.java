@@ -29,6 +29,10 @@ public class PedidoDAO {
     private final String selecPedido = "SELECT data, id_cliente FROM pedido WHERE id_cliente = ?;";
     private final String selectPedidos = "SELECT p.id, p.data, p.id_cliente, c.id  AS cod_cliente, c.nome, c.sobrenome, c.cpf FROM pedido AS p " +
                                                 "INNER JOIN cliente AS c ON p.id_cliente = c.id LIMIT 10;";
+    
+    private final String selectPedidosPorCliente = "SELECT p.id, p.data, p.id_cliente, c.id AS cod_cliente, c.nome, c.sobrenome, c.cpf FROM pedido AS p " +
+                                                        "INNER JOIN cliente AS c ON p.id_cliente = c.id " +
+                                                        "WHERE c.cpf = ?;";
     private final String updatePedido = "UPDATE pedido set data = ?, id_cliente = ? WHERE id_cliente = ?";
     private final String deletePedido = "DELETE FROM pedido WHERE id = ?;";
     private final String selectListaPedido = "SELECT id, data, id_cliente FROM pedido WHERE id_cliente = ?;";
@@ -250,6 +254,74 @@ public class PedidoDAO {
                     rs.getInt("id"),
                     data_pedido,
                     cliente,
+                    null
+                ); 
+                pedidosList.add(pedido);
+                
+             }
+           
+        } catch (SQLException e) {
+            System.out.println("Erro operações lista ao listar todos os pedidos associando trazendo o cliente associado");
+        } finally {
+           try {rs.close();} catch (SQLException e) {  
+                System.out.println(e.getMessage());
+                throw new RuntimeException("Ocorreu erro ao fechar o ResultSet.");
+            }
+           try { pstmtSelect.close(); } catch (SQLException e) {throw new RuntimeException("Ocorreu erro ao fechar o PreparedStatement.");}
+           try { con.close(); } catch (SQLException e) {throw new RuntimeException("Falha ao fechar a conexão com o banco de dados.");}
+        }
+        return pedidosList;
+    }
+   
+   /**
+    * Método para listar os pedido do cliente
+    * @param List<Pedido> pedidosClientes - um lista de pedidos
+    * @return
+    * @throws SQLException 
+    */
+   public List<Pedido> selectPedidosPorCliente(Cliente cliente) throws SQLException {
+
+       Connection con = null;
+       PreparedStatement pstmtSelect = null;
+       ResultSet rs = null;
+       List<Pedido> pedidosList = new ArrayList();
+       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+       
+        try {
+            con = new ConnectionFactory().getConnection();
+
+            pstmtSelect = con.prepareStatement(selectPedidosPorCliente);
+
+            // @DEGUB
+            System.out.println(pstmtSelect);
+
+
+            rs = pstmtSelect.executeQuery();
+            
+            // @DEBUG
+            System.out.println(pstmtSelect);
+            
+            while (rs.next()) {
+                java.sql.Timestamp timestamp = rs.getTimestamp("data");
+                LocalDateTime data_pedido = rs.getTimestamp("data").toLocalDateTime();
+                
+                Cliente clientePedido = new Cliente(
+                                    rs.getInt("cod_cliente"),
+                                    rs.getString("cpf"),
+                                    rs.getString("nome"),
+                                    rs.getString("sobrenome")
+                                );
+                
+                // @DEBUG
+                System.out.println(data_pedido);
+                System.out.println(cliente.getNome());
+                System.out.println(cliente.getSobreNome());
+                System.out.println(cliente.getId());
+            
+                Pedido pedido = new Pedido(
+                    rs.getInt("id"),
+                    data_pedido,
+                    clientePedido,
                     null
                 ); 
                 pedidosList.add(pedido);

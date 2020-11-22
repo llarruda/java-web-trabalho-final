@@ -36,7 +36,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/produtos/list">Produtos</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item active">
                 <a class="nav-link" href="${pageContext.request.contextPath}/pedidos/list">Pedidos</a>
               </li>
             </ul>
@@ -46,13 +46,21 @@
 
         <div class="row-sm">
             <div class="container">
-                <form action="${pageContext.request.contextPath}/pedidos/novo" method="GET">
-                    <button type="submit" class="btn btn-success">Novo Pedido</button>
-                </form>
+                <div class="navbar navbar-expand-lg">
+                    <ul class="navbar-nav mr-auto">
+                    <form action="${pageContext.request.contextPath}/pedidos/new" method="GET">
+                        <button type="submit" class="btn btn-success">Novo Pedido</button>
+                    </form>
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/pedidos/search" method="POST" accept-charset="iso-8859-1, utf-8">
+                        <input name="cpf" class="cpf form-control mr-sm-2" type="search" placeholder="CPF Cliente" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar Pedidos</button>
+                    </form>
+                </div>
                 <br>
                 <c:if test="${sucessomsg == true}">
                     <div class="alert alert-success" role="alert">
-                        Produto cadastrado!
+                        Pedido cadastrado!
                     </div>
                     <c:remove var="sucessomsg" scope="session"/>
                 </c:if>
@@ -105,6 +113,12 @@
         <div class="navbar navbar-light bg-ligh justify-content-center fixed-bottom">
             <p style="padding-top: 30px;">© Engenharia de Software - 2020</p>
         </div>
-    </footer>  
+    </footer>
+        
+    <script>
+        $(document).ready(function(){
+            $('.cpf').mask('999.999.999-99');
+        });
+    </script> 
     </body>
 </html>

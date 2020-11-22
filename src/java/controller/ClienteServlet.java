@@ -245,7 +245,7 @@ public class ClienteServlet extends HttpServlet {
         }
 
         request.setAttribute("lista", lista);
-
+        
         RequestDispatcher rd = getServletContext()
             .getRequestDispatcher("/clientes.jsp");
         rd.forward(request, response);

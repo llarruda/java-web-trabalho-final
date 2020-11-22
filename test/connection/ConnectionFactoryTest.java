@@ -27,6 +27,7 @@ public class ConnectionFactoryTest {
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionFactoryTest.class.getName()).log(Level.SEVERE, null, ex);
         }
+        assertNotNull(con);
     }
     
 }
