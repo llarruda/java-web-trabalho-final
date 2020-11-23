@@ -70,11 +70,11 @@
                     </div>
                     <c:remove var="excluirmsg" scope="session"/>
                 </c:if>
-                <c:if test="${alterarmsg == true}">
+                <c:if test="${cpfNotFound == true}">
                     <div class="alert alert-primary" role="alert">
-                        Pedido alterado com sucesso!
+                        Cliente não encontrado.
                     </div>
-                    <c:remove var="alterarmsg" scope="session"/>
+                    <c:remove var="cpfNotFound" scope="session"/>
                 </c:if>                   
                 <table class="table table-bordered">
                     <tr>

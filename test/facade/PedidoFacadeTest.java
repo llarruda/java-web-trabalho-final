@@ -34,4 +34,23 @@ public class PedidoFacadeTest {
         
         System.out.println(pedidos.get(0).getData());
     }
+    
+    @Test
+    public void listarPedidosByCliente() {
+        System.out.println("inserir");
+        
+        String cpf = "99999999999";
+        
+        PedidoFacade pedidoFacade = new PedidoFacade();
+        
+        ClienteFacade clienteFacade = new ClienteFacade();
+        
+        Cliente cliente = clienteFacade.buscarPorCpf(cpf);
+        //System.out.println(">>>>" + cliente.getNome());
+        
+        
+        List<Pedido> pedidos = pedidoFacade.listarPedidosCliente(cliente);
+        
+        //System.out.println(pedidos.get(0).getData());
+    }
 }

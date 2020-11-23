@@ -280,64 +280,57 @@ public class PedidoDAO {
     * @throws SQLException 
     */
    public List<Pedido> selectPedidosPorCliente(Cliente cliente) throws SQLException {
+       
+       if (cliente == null) {
+           return null;
+       }
 
-       Connection con = null;
+       Connection conn = null;
        PreparedStatement pstmtSelect = null;
        ResultSet rs = null;
        List<Pedido> pedidosList = new ArrayList();
        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
        
         try {
-            con = new ConnectionFactory().getConnection();
-
-            pstmtSelect = con.prepareStatement(selectPedidosPorCliente);
-
+            conn = ConnectionFactory.getConnection();
+            pstmtSelect = conn.prepareStatement(selectPedidosPorCliente);
+            
             // @DEGUB
             System.out.println(pstmtSelect);
-
-
-            rs = pstmtSelect.executeQuery();
             
-            // @DEBUG
+            
+            pstmtSelect.setString(1, cliente.getCpf());
+            
+            // @DEGUB
             System.out.println(pstmtSelect);
+            
+            rs = pstmtSelect.executeQuery();
             
             while (rs.next()) {
                 java.sql.Timestamp timestamp = rs.getTimestamp("data");
                 LocalDateTime data_pedido = rs.getTimestamp("data").toLocalDateTime();
-                
-                Cliente clientePedido = new Cliente(
-                                    rs.getInt("cod_cliente"),
-                                    rs.getString("cpf"),
-                                    rs.getString("nome"),
-                                    rs.getString("sobrenome")
-                                );
-                
-                // @DEBUG
-                System.out.println(data_pedido);
-                System.out.println(cliente.getNome());
-                System.out.println(cliente.getSobreNome());
-                System.out.println(cliente.getId());
             
                 Pedido pedido = new Pedido(
                     rs.getInt("id"),
                     data_pedido,
-                    clientePedido,
+                    cliente,
                     null
                 ); 
                 pedidosList.add(pedido);
-                
              }
            
-        } catch (SQLException e) {
-            System.out.println("Erro operações lista ao listar todos os pedidos associando trazendo o cliente associado");
-        } finally {
-           try {rs.close();} catch (SQLException e) {  
-                System.out.println(e.getMessage());
-                throw new RuntimeException("Ocorreu erro ao fechar o ResultSet.");
-            }
-           try { pstmtSelect.close(); } catch (SQLException e) {throw new RuntimeException("Ocorreu erro ao fechar o PreparedStatement.");}
-           try { con.close(); } catch (SQLException e) {throw new RuntimeException("Falha ao fechar a conexão com o banco de dados.");}
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao consultar produtos no banco de dados por descrição. " + ex.getMessage());
+        } catch(Exception ex) {
+            return null;
         }
+            finally{
+            try{rs.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar result set: " + ex.getMessage());}
+            try{pstmtSelect.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar stmt: " + ex.getMessage());}
+            try{conn.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar conexao: " + ex.getMessage());}
+        }
+        
+        //System.err.println(pedidosList.get(1).getId());
         return pedidosList;
     }
    

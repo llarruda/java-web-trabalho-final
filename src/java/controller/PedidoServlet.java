@@ -201,27 +201,30 @@ public class PedidoServlet extends HttpServlet {
 
         cpf = cpf.replaceAll("\\.", "");
         cpf = cpf.replaceAll("-", "");
-
+        
+        PedidoFacade pedidoFacade = new PedidoFacade();
         ClienteFacade clienteFacade = new ClienteFacade();
 
         Cliente cliente = clienteFacade.buscarPorCpf(cpf);
-
-        PedidoFacade pedidoFacade = new PedidoFacade();
         
-        List<Pedido> lista = pedidoFacade.listarPedidosCliente(cliente);
+        List<Pedido> lista;
+        
+        if (cliente == null) {
+            boolean cpfNotFound = true;
+            request.getSession().setAttribute("cpfNotFound", cpfNotFound);
+            request.getSession().setAttribute("cpf_consultado", cpf);
+            
+            lista = pedidoFacade.listarPedidos();
+               
+        } else {
 
-        if (lista.isEmpty()) {
-             System.out.println(">>>>> TESTE");
-             boolean produtoNotFound = true;
-             request.getSession().setAttribute("pedidosNotFound", produtoNotFound);
-             request.getSession().setAttribute("cpf_utilizado", cpf);
-
-         }
-
-         request.setAttribute("lista", lista);
-         RequestDispatcher rd = getServletContext()
-                 .getRequestDispatcher("/pedidos.jsp");
-         rd.forward(request, response);
+            lista = pedidoFacade.listarPedidosCliente(cliente);
+        }
+        
+        request.setAttribute("lista", lista);
+             RequestDispatcher rd = getServletContext()
+                     .getRequestDispatcher("/pedidos.jsp");
+             rd.forward(request, response);
     }
     
     public void addItensPedido(HttpServletRequest request, HttpServletResponse response)
