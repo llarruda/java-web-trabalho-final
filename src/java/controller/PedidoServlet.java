@@ -11,6 +11,7 @@ import facade.ProdutoFacade;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -230,9 +231,34 @@ public class PedidoServlet extends HttpServlet {
     public void addItensPedido(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        String id[] = request.getParameterValues("id");
+        String quantidade[] = request.getParameterValues("quantidade");
+        
+        System.out.println("Id: " + id[0]);
+        System.out.println("quantidade: " + quantidade[0]);
+        
+        //String[] id = request.getParameterValues("id");
+        
+        /*if (id != null) {
+            System.out.println("eeeee");
+        } else {
+            System.err.println("Rtetornando null");
+        }*/
+        
+        Enumeration<String> parameterNames = request.getParameterNames();
+ 
+        while (parameterNames.hasMoreElements()) {
+ 
+            String paramName = parameterNames.nextElement();
+            System.out.println(">>>>>" + paramName);
+ 
+        }
+        
+        
+        
        
         
-        RequestDispatcher rd = request.getRequestDispatcher("/addItensPedido.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/pedidos.jsp");
             rd.forward(request, response);
     }
     

@@ -61,7 +61,7 @@ public class ClienteFacadeTest {
     @Test
     public void testBuscarPorCpf() {
         System.out.println("buscarPorCpf");
-        String cpf = "99999999993";
+        String cpf = "11111111111";
         ClienteFacade instance = new ClienteFacade();
         Cliente cliente = instance.buscarPorCpf(cpf);
         System.out.println(cliente.getNome());

@@ -12,8 +12,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <style type="text/css">
         .table-overflow {
-            max-height:500px;
+            max-height:300px;
             overflow-x:auto;
+        }
+        
+        li {
+            text-align: center;
         }
     </style>
 
@@ -44,8 +48,8 @@
                 <table class="table table-bordered">
                     <tr>
                         <th scope="col" style="width: 0.1%">ID</th>
-                        <th scope="col" style="width: 0.5%">Descrição</th>
-                         <th scope="col" style="width: 0.3%">Ação</th>
+                        <th scope="col" style="width: 1%">Descrição</th>
+                         <th scope="col" style="width: 1%">Ação</th>
                     </tr>
                     <c:forEach var="produto" items="${listaProdutos}">
                         <tr>
@@ -55,7 +59,7 @@
                                 <div class="form-row">
                                     
                                         <input class="userinput" type="hidden" name="id" value="${produto.id} - ${produto.descricao}">
-                                        <button onclick="addIten(this)" class="add btn btn-primary">Adicionar</button>
+                                        <button onclick="addItens(this)" class="add btn btn-primary">Adicionar</button>
                                     
 <!--                                    <form action="excluir" method="POST">
                                         <input type="hidden" name="id" value="${cliente.id}"">
@@ -95,23 +99,17 @@
                     <c:remove var="alterarmsg" scope="session"/>
                 </c:if>                   
                 <table class="table table-bordered">
-                    <tr>
-                        <th scope="col" style="width: 0.2%">ID</th>
-                        <th scope="col" style="width: 0.5%">Produto</th>
-                        <th scope="col" style="width: 0.2%">Quantidade</th>
-                    </tr>
-                    <div class="col-12">
-                        <ul id="resumo" class="list-group">
-                          <li class="list-group-item">Itens</li>
-                        </ul>
-                    </div>
-                    <c:forEach var="iten" items="${listItens}">
-                        <tr>
-                            <td>${iten.id}</td>
-                            <td>${iten.descricao}</td>
-                            <td>${iten.quantidade}</td>
-                        </tr>
-                    </c:forEach>
+                   
+                    
+                    <form id="formPedidos" action="${pageContext.request.contextPath}/pedidos/addItens" method="POST" accept-charset="iso-8859-1, utf-8">
+                        <div id="teste" class="form-group">
+                            <li class="list-group-item">Itens</li>
+                        </div>
+
+                        <button form="formPedidos" type="submit" class="btn btn-success">Finalizar Pedido</button>
+                        <a class="btn btn-danger" href="${pageContext.request.contextPath}/produtos/list" role="button" style="float: right">Voltar</a>
+                    </form>
+                    
                 </table>
             </div>
             </div>
@@ -123,21 +121,62 @@
            });
 
 
+            var clicks = 0;
+            var quantidade = 1;
+            var list = [];
+            
+            contadorNomeInputs = 0;
+            
+            var listInserir = [];
+            
            //var buttons = document.getElementsByClassName("add");
-           function addIten(elem) {
-               
+           function addItens(elem) {
+  
             var $this = $(elem); //< -- wrap the element in a jQuery wrapper
             var val = $this.siblings('input[type=hidden]').val();
             console.log(val);
             
-            var li = document.createElement("li");
-            li.className = 'list-group-item';
-            li.textContent = val;
-            var ul = document.querySelector("ul");
-            ul.appendChild(li);
+            
+            // se não for clicado antes (não houver na lista)
+            if (!(list.includes(val))) {
+                list.push(val);
+                
+                ++contadorNomeInputs;
+                
+                var li = document.createElement("li");
+                li.className = 'list-group-item';
+                
+                var input = document.createElement("input");
+                input.setAttribute('type', 'text');
+                
+                var idProd = val.substr(0, val.indexOf('-'));
+                //li.innerHTML = "<label>" + val + "</label>" + "<input type=\"text\" class=\"form-control\" name=\"quantidade" + "[" +  contadorNomeInputs + "]" +"\" placeholder=\"quantidade\"></input>" +
+                //"<input type=\"hidden\" class=\"form-control\" name=\"id" + "[" +  contadorNomeInputs + "]" +"\" value=\"" + idProd + "\" readonly></input>";
+                
+                li.innerHTML = "<label>" + val + "</label>" + "<input form=\"formPedidos\" type=\"text\" class=\"form-control\" name=\"quantidade\" placeholder=\"quantidade\" required minlength=\"1\"></input>" +
+                "<input form=\"formPedidos\" type=\"hidden\" class=\"form-control\" name=\"id\" value=\"" + idProd + "\" readonly></input>";
+                
+                
+                var ul = document.getElementById("teste");
+                ul.appendChild(li);
+                
+                if (quantidade > 1) {
+                    itenAtual = [val, quantidade];
+                    listInserir.push(itenAtual);
+                    quantidade = 1;
+                    console.log(listInserir);
+                }
+                console.log(list, quantidade);
+            } else {
+                ++quantidade;
+                console.log(list, quantidade);
+            }
+            
            }
            
            function remIten(elem) {
+               
+            list = [];
                
             var $this = $(elem); //< -- wrap the element in a jQuery wrapper
             var val = $this.siblings('input[type=hidden]').val();
