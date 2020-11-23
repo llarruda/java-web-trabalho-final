@@ -12,8 +12,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <style type="text/css">
         .table-overflow {
-        max-height:500px;
-        overflow-x:auto;}
+            max-height:500px;
+            overflow-x:auto;
+        }
     </style>
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -52,15 +53,15 @@
                             <td>${produto.descricao}</td>
                             <td>
                                 <div class="form-row">
-                                    <form action="${pageContext.request.contextPath}/pedidos/register" method="POST" style="margin-right: 8px">
-                                        <input type="hidden" name="id" value="${produto.id}">
-                                        <button type="submit" class="btn btn-primary">Adicionar</button>
-                                    </form>
+                                    
+                                        <input class="userinput" type="hidden" name="id" value="${produto.id} - ${produto.descricao}">
+                                        <button onclick="addIten(this)" class="add btn btn-primary">Adicionar</button>
+                                    
 <!--                                    <form action="excluir" method="POST">
                                         <input type="hidden" name="id" value="${cliente.id}"">
                                         <button class="btn btn-danger" data-catid="${cliente.id}" data-toggle="modal" data-target="#delete">Excluir</button>
                                     </form>-->
-                                    <button class="btn btn-danger" data-catid="${produto.id}" data-toggle="modal" data-target="#delete">Remover</button>
+                                    <button onclick="remIten(this)" class="btn btn-danger" data-catid="${produto.id}" data-toggle="modal" data-target="#delete">Remover</button>
                                 </div>    
                             </td>
                         </tr>
@@ -99,6 +100,11 @@
                         <th scope="col" style="width: 0.5%">Produto</th>
                         <th scope="col" style="width: 0.2%">Quantidade</th>
                     </tr>
+                    <div class="col-12">
+                        <ul id="resumo" class="list-group">
+                          <li class="list-group-item">Itens</li>
+                        </ul>
+                    </div>
                     <c:forEach var="iten" items="${listItens}">
                         <tr>
                             <td>${iten.id}</td>
@@ -110,5 +116,37 @@
             </div>
             </div>
         </div>
+        
+        <script>
+           $(document).ready(function(){
+             $('#cpf').mask('999.999.999-99');
+           });
+
+
+           //var buttons = document.getElementsByClassName("add");
+           function addIten(elem) {
+               
+            var $this = $(elem); //< -- wrap the element in a jQuery wrapper
+            var val = $this.siblings('input[type=hidden]').val();
+            console.log(val);
+            
+            var li = document.createElement("li");
+            li.className = 'list-group-item';
+            li.textContent = val;
+            var ul = document.querySelector("ul");
+            ul.appendChild(li);
+           }
+           
+           function remIten(elem) {
+               
+            var $this = $(elem); //< -- wrap the element in a jQuery wrapper
+            var val = $this.siblings('input[type=hidden]').val();
+            
+            var elem = document.getElementById('resumo');
+            while (elem.firstChild) {
+                elem.removeChild(elem.firstChild);
+            }
+           }
+        </script>
     </body>
 </html>
