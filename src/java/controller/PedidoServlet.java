@@ -10,6 +10,7 @@ import facade.ItemDoPedidoFacade;
 import facade.PedidoFacade;
 import facade.ProdutoFacade;
 import java.io.IOException;
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -42,9 +43,9 @@ public class PedidoServlet extends HttpServlet {
         System.out.println(">>> " + acao);
         try {
             switch (acao) {
-                /*case "/edit":
-                    editarProduto(request, response);
-                    break;*/
+                case "/detail":
+                    detalharPedido(request, response);
+                    break;
                 case "/new":
                     novoPedido(request, response);
                     break;
@@ -128,7 +129,7 @@ public class PedidoServlet extends HttpServlet {
         ClienteFacade clienteFacade = new ClienteFacade();
         ProdutoFacade produtoFacade = new ProdutoFacade();
         
-        LocalDateTime dataPedido = LocalDateTime.now();
+        LocalDateTime dataPedido = LocalDateTime.now(Clock.systemUTC());
         
         String cpf = request.getParameter("cpf");
         
@@ -268,6 +269,24 @@ public class PedidoServlet extends HttpServlet {
         RequestDispatcher rd = getServletContext()
                 .getRequestDispatcher("/pedidos.jsp");
         rd.forward(request, response);
+    }
+    
+    protected void detalharPedido(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        int id = Integer.parseInt(request.getParameter("id"));
+        
+        Pedido pedido = new Pedido(id, null, null, null);
+        
+        
+        PedidoFacade pedidoFacade = new PedidoFacade();
+         
+        List<Pedido> lista = pedidoFacade.listarPedidosPorId(pedido);
+       
+        request.setAttribute("lista", lista);
+             RequestDispatcher rd = getServletContext()
+                     .getRequestDispatcher("/detalhesPedido.jsp");
+             rd.forward(request, response);
     }
     
     @Override

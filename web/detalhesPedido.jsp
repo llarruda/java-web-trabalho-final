@@ -1,6 +1,6 @@
 <%-- 
-    Document   : pedidos
-    Created on : Nov 19, 2020, 11:10:03 AM
+    Document   : PedidoDetalhes
+    Created on : Nov 24, 2020, 8:44:59 AM
     Author     : llarruda
 --%>
 
@@ -42,7 +42,7 @@
             </ul>
           </div>
         </nav>
-        <h2 class="text-center">Lista de Pedidos</h2>
+        <h2 class="text-center">Detalhe do Pedido</h2>
 
         <div class="row-sm">
             <div class="container">
@@ -87,14 +87,14 @@
                     <c:forEach var="pedido" items="${lista}">
                         <tr>
                             <td>${pedido.id}</td>
-                            <td class="rawDate">${pedido.data}</td>
+                            <td id="mask">${pedido.data}</td>
                             <td class="cpf">${pedido.getCliente().getCpf()}</td>
                             <td>${pedido.getCliente().getNome()} ${pedido.getCliente().getSobreNome()}</td>
                             <td>
                                 <div class="form-row">
-                                    <form action="${pageContext.request.contextPath}/pedidos/detail?id=" method="GET" style="margin-right: 8px">
-                                        <input type="hidden" name="id" value="${pedido.id}">
-                                        <button type="submit" class="btn btn-primary">Detalhes</button>
+                                    <form action="${pageContext.request.contextPath}/pedidos/list" method="GET" style="margin-right: 8px">
+                                        
+                                        <button type="submit" class="btn btn-primary">Voltar</button>
                                     </form>
 <!--                                    <form action="excluir" method="POST">
                                         <input type="hidden" name="id" value="${cliente.id}"">
@@ -119,33 +119,13 @@
             $('.cpf').mask('999.999.999-99');
         });
         
-        /*$(document).ready(function() {
-            var intermediate = $('.rawDate').mask('9999-99-99');
-            var mes;
-            for (var i =0; i < intermediate.length; i++) {
-                var ano = intermediate[i].innerHTML.substring(0,4);
-                mes = intermediate[i].innerHTML.substring(5,7);
-                var dia = intermediate[i].innerHTML.substring(9,11);
-                intermediate.html(mes);
-                console.log(intermediate[i].innerHTML);
-                console.log(mes);
-            }
-            $('.rawDate').html('teste');
-        });*/
-    
-        $('.rawDate').each( function() {
+        $(document).ready(function(){
+            $('.mask').val();
+            let data = $this.val();
+            let split = data.split('T'); //separa a data da hora
+            let formmated = split[0].split('-');
 
-            //var format = "Do MMM YYYY";
-
-            var $this = $( this );
-            var old_date = $.trim($this.text());
-            var ano = old_date.substring(0,4);
-            var mes = old_date.substring(5,7);
-            var dia = old_date.substring(8,10);
-            console.log(old_date);
-            var new_date = dia + "/" + mes + "/" + ano;
-            $this.text($this.text().replace(old_date, new_date));
-            
+            $this.val(formmated[2]);
         });
     </script> 
     </body>

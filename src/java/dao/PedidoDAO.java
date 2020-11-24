@@ -27,6 +27,9 @@ import model.Produto;
 public class PedidoDAO {
     private final String insertPedido = "INSERT INTO pedido (data, id_cliente) VALUES (?, ?);";
     private final String selecPedido = "SELECT data, id_cliente FROM pedido WHERE id_cliente = ?;";
+    private final String selecPedidosById = "SELECT p.id, p.data, p.id_cliente, c.id AS cod_cliente, c.nome, c.sobrenome, c.cpf FROM pedido AS p " +
+                                                        "INNER JOIN cliente AS c ON p.id_cliente = c.id " +
+                                                        "WHERE p.id = ?;";
     private final String selectPedidos = "SELECT p.id, p.data, p.id_cliente, c.id  AS cod_cliente, c.nome, c.sobrenome, c.cpf FROM pedido AS p " +
                                                 "INNER JOIN cliente AS c ON p.id_cliente = c.id LIMIT 10;";
     
@@ -317,6 +320,70 @@ public class PedidoDAO {
                     null
                 ); 
                 pedidosList.add(pedido);
+             }
+           
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao consultar produtos no banco de dados por descrição. " + ex.getMessage());
+        } catch(Exception ex) {
+            return null;
+        }
+            finally{
+            try{rs.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar result set: " + ex.getMessage());}
+            try{pstmtSelect.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar stmt: " + ex.getMessage());}
+            try{conn.close();}catch(SQLException ex){throw new RuntimeException("Erro ao fechar conexao: " + ex.getMessage());}
+        }
+        
+        //System.err.println(pedidosList.get(1).getId());
+        return pedidosList;
+    }
+   
+   
+   /**
+    * Método para listar por id para detalhamento
+    * @param List<Pedido> pedidosClientes - um lista de pedidos
+    * @return
+    * @throws SQLException 
+    */
+   public List<Pedido> selectPedidosPorId(Pedido pedido) throws SQLException {
+       
+       if (pedido == null) {
+           return null;
+       }
+
+       Connection conn = null;
+       PreparedStatement pstmtSelect = null;
+       ResultSet rs = null;
+       List<Pedido> pedidosList = new ArrayList();
+       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+       
+        try {
+            conn = ConnectionFactory.getConnection();
+            pstmtSelect = conn.prepareStatement(selecPedidosById);
+            
+            // @DEGUB
+            System.out.println(pstmtSelect);
+            
+            
+            pstmtSelect.setInt(1, pedido.getId());
+            
+            // @DEGUB
+            System.out.println(pstmtSelect);
+            
+            rs = pstmtSelect.executeQuery();
+            
+            while (rs.next()) {
+                java.sql.Timestamp timestamp = rs.getTimestamp("data");
+                LocalDateTime data_pedido = rs.getTimestamp("data").toLocalDateTime();
+                
+                Cliente cliente = new Cliente(rs.getInt("cod_cliente"), rs.getString("cpf"), rs.getString("nome"), rs.getString("sobrenome"));
+            
+                Pedido pedidoRetornado = new Pedido(
+                    rs.getInt("id"),
+                    data_pedido,
+                    cliente,
+                    null
+                ); 
+                pedidosList.add(pedidoRetornado);
              }
            
         } catch (SQLException ex) {
