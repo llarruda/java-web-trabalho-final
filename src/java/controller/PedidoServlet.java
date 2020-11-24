@@ -77,9 +77,9 @@ public class PedidoServlet extends HttpServlet {
                 case "/create":
                     registerPedido(request, response);
                     break;
-                /*case "/delete":
-                    deletarProduto(request, response);
-                    break;*/
+                case "/delete":
+                    deletarPedido(request, response);
+                    break;
                 case "/teste":
                     searchProdutoByDesc(request, response);
                     break;
@@ -241,34 +241,41 @@ public class PedidoServlet extends HttpServlet {
         Pedido pedido = new Pedido(pedidoGerado, null, null, null);
         System.out.println(pedidoGerado);
         
-        for(int i = 0; i < id.length; i++) {
-            Produto prod = new Produto(Integer.parseInt(id[i].trim()), "");
-            
-            ItemDoPedido item = new ItemDoPedido(prod, Integer.parseInt(quantidade[i]));
+        if (id == null) {
+           pedidoFacade.deletar(pedido);
+        } else {
         
-            ItemDoPedidoFacade itemPedidoFacade = new ItemDoPedidoFacade();
-            
-            itemPedidoFacade.inserir(item, pedido);
+            for(int i = 0; i < id.length; i++) {
+                Produto prod = new Produto(Integer.parseInt(id[i].trim()), "");
+
+                ItemDoPedido item = new ItemDoPedido(prod, Integer.parseInt(quantidade[i]));
+
+                ItemDoPedidoFacade itemPedidoFacade = new ItemDoPedidoFacade();
+
+                itemPedidoFacade.inserir(item, pedido);
+            }
         }
         
         // DEBUG
-        Enumeration<String> parameterNames = request.getParameterNames();
+        /*Enumeration<String> parameterNames = request.getParameterNames();
  
         while (parameterNames.hasMoreElements()) {
  
             String paramName = parameterNames.nextElement();
             System.out.println(">>>>>" + paramName);
  
-        }
+        } 
         
-        List<Pedido> lista = pedidoFacade.listarPedidos();
         for (Pedido p : lista) {
                 System.out.printf("LISTA DE PEDIDOS \n%s %d\n", p.getCliente().getCpf(), p.getCliente().getId());
-        }
+        }*/
+        List<Pedido> lista = pedidoFacade.listarPedidos();
         request.setAttribute("lista", lista);
         RequestDispatcher rd = getServletContext()
                 .getRequestDispatcher("/pedidos.jsp");
         rd.forward(request, response);
+        
+        
     }
     
     protected void detalharPedido(HttpServletRequest request, HttpServletResponse response)
@@ -287,6 +294,20 @@ public class PedidoServlet extends HttpServlet {
              RequestDispatcher rd = getServletContext()
                      .getRequestDispatcher("/detalhesPedido.jsp");
              rd.forward(request, response);
+    }
+    
+    protected void deletarPedido(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        int id = Integer.parseInt(request.getParameter("id"));
+        
+        Pedido pedido = new Pedido(id, null, null, null);
+        pedidoFacade.deletar(pedido);
+
+        boolean excluir = true;
+        request.getSession().setAttribute("excluirmsg", excluir);
+
+        response.sendRedirect("pedidos");
     }
     
     @Override

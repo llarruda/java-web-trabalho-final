@@ -42,7 +42,22 @@ public class PedidoFacade {
     
     // TODO: implementar ação na classe PedidoDAO par permitir a busca de pedido por id
     public Pedido buscarPedido(int id) {
+        List<Pedido> listPedido = null;
+
+        try {
+            listPedido = pedidoDAO.selectPedidos();
+        } catch (SQLException ex) {
+            Logger.getLogger(PedidoFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         Pedido pedido = null;
+        for(int i = 0; i < listPedido.size(); i++) {
+
+            if(id == listPedido.get(i).getId()) {
+                pedido = new Pedido(listPedido.get(i).getId(), listPedido.get(i).getData(), listPedido.get(i).getCliente(), null);
+            }
+            break;
+        }
         
         return pedido;
     }

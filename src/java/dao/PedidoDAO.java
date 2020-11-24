@@ -43,6 +43,7 @@ public class PedidoDAO {
                                                 "INNER JOIN produto AS prod ON i.id_produto = prod.id\n" +
                                                 "INNER JOIN pedido as p ON p.id = i.id_pedido\n" +
                                                 "WHERE p.id = ?;";
+    private final String selectConsultarPorId = "SELECT id, data, id_cliente FROM pedido WHERE id = ?";
     
     /**
     * Método para inserir um Pedido

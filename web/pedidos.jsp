@@ -66,7 +66,7 @@
                 </c:if>
                 <c:if test="${excluirmsg == true}">
                     <div class="alert alert-danger" role="alert">
-                        Produto excluido!
+                        Pedido excluido!
                     </div>
                     <c:remove var="excluirmsg" scope="session"/>
                 </c:if>
@@ -82,7 +82,7 @@
                         <th scope="col" style="width: 0.5%">Data</th>
                         <th scope="col" style="width: 0.2%">CPF</th>
                         <th scope="col" style="width: 2.5%">Cliente</th>
-                         <th scope="col" style="width: 0.2%">Ação</th>
+                         <th scope="col" style="width: 0.5%">Ação</th>
                     </tr>
                     <c:forEach var="pedido" items="${lista}">
                         <tr>
@@ -100,12 +100,37 @@
                                         <input type="hidden" name="id" value="${cliente.id}"">
                                         <button class="btn btn-danger" data-catid="${cliente.id}" data-toggle="modal" data-target="#delete">Excluir</button>
                                     </form>-->
+                                    <button class="btn btn-danger" data-catid="${pedido.id}" data-toggle="modal" data-target="#delete">Excluir</button>
                                 </div>    
                             </td>
                         </tr>
                     </c:forEach>
                 </table>
             </div>
+            </div>
+                        
+                         <!-- Modal -->
+            <div class="modal modal-danger fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog  modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="TituloModalCentralizado">Confirmar exclusão</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="delete" method="POST">
+                            <div class="modal-body">
+                                Deseja excluir esse pedido?
+                                <input type="hidden" name="id" id="cat_id" value="">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Excluir</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     <footer>
@@ -147,6 +172,14 @@
             $this.text($this.text().replace(old_date, new_date));
             
         });
-    </script> 
+    </script>
+    <script>
+        $('#delete').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); 
+            var cat_id = button.data('catid'); 
+            var modal = $(this);
+            modal.find('.modal-body #cat_id').val(cat_id);
+        });
+    </script>
     </body>
 </html>

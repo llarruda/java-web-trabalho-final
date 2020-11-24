@@ -102,9 +102,9 @@
                    
                     
                     <form id="formPedidos" action="${pageContext.request.contextPath}/pedidos/addItens" method="POST" accept-charset="iso-8859-1, utf-8">
+                        <input form="formPedidos" type="hidden" class="form-control" name="pedido_gerado" value="${pedido_id}" required minlength="3" maxlength="80"> 
                         <div id="teste" class="form-group">
                             <li class="list-group-item">Itens</li>
-                            <input form="formPedidos" type="hidden" class="form-control" name="pedido_gerado" value="${pedido_id}" required minlength="3" maxlength="80"> 
                         </div>
 
                         <button form="formPedidos" type="submit" class="btn btn-success">Finalizar Pedido</button>
@@ -180,9 +180,9 @@
             list = [];
                
             var $this = $(elem); //< -- wrap the element in a jQuery wrapper
-            var val = $this.siblings('input[type=hidden]').val();
+            //var val = $this.siblings('input[type=hidden]').val();
             
-            var elem = document.getElementById('resumo');
+            var elem = document.getElementById('teste');
             while (elem.firstChild) {
                 elem.removeChild(elem.firstChild);
             }
