@@ -82,7 +82,7 @@
                         <th scope="col" style="width: 0.5%">Data</th>
                         <th scope="col" style="width: 0.2%">CPF</th>
                         <th scope="col" style="width: 2.5%">Cliente</th>
-                         <th scope="col" style="width: 0.2%">Ação</th>
+                         <th scope="col" style="width: 0.5%">Ação</th>
                     </tr>
                     <c:forEach var="pedido" items="${lista}">
                         <tr>
@@ -100,8 +100,27 @@
                                         <input type="hidden" name="id" value="${cliente.id}"">
                                         <button class="btn btn-danger" data-catid="${cliente.id}" data-toggle="modal" data-target="#delete">Excluir</button>
                                     </form>-->
+                                    <button class="btn btn-danger" data-catid="${pedido.id}" data-toggle="modal" data-target="#delete">Excluir</button>
                                 </div>    
                             </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+                
+                <h3 class="text-center">Listagem Itens</h3>
+                
+                <table class="table table-bordered">
+                    <tr>
+                        <th scope="col" style="width: 0.2%">ID</th>
+                        <th scope="col" style="width: 1%">Produto</th>
+                        <th scope="col" style="width: 0.5%">Quantidade</th>
+                    </tr>
+                    <c:forEach var="item" items="${listaItens}">
+                        <tr>
+                            <td>${item.getProduto().getId()}</td>
+                            <td>${item.getProduto().getDescricao()}</td>
+                            <td>${item.quantidade}</td>
+                            
                         </tr>
                     </c:forEach>
                 </table>
@@ -119,14 +138,29 @@
             $('.cpf').mask('999.999.999-99');
         });
         
-        $(document).ready(function(){
-            $('.mask').val();
-            let data = $this.val();
-            let split = data.split('T'); //separa a data da hora
-            let formmated = split[0].split('-');
+        $('.rawDate').each( function() {
 
-            $this.val(formmated[2]);
+            //var format = "Do MMM YYYY";
+
+            var $this = $( this );
+            var old_date = $.trim($this.text());
+            var ano = old_date.substring(0,4);
+            var mes = old_date.substring(5,7);
+            var dia = old_date.substring(8,10);
+            console.log(old_date);
+            var new_date = dia + "/" + mes + "/" + ano;
+            $this.text($this.text().replace(old_date, new_date));
+            
         });
     </script> 
+    
+    <script>
+        $('#delete').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); 
+            var cat_id = button.data('catid'); 
+            var modal = $(this);
+            modal.find('.modal-body #cat_id').val(cat_id);
+        });
+    </script>
     </body>
 </html>

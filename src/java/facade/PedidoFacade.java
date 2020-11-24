@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Cliente;
+import model.ItemDoPedido;
 import model.Pedido;
 
 /**
@@ -95,5 +96,18 @@ public class PedidoFacade {
         } catch (SQLException ex) {
             Logger.getLogger(PedidoFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public List<ItemDoPedido> listarItensPedido(Pedido pedido) {
+        
+        List<ItemDoPedido> itensLista = null;
+        
+        try {
+            itensLista = pedidoDAO.selectListaItensPedido(pedido);
+        } catch (SQLException ex) {
+            Logger.getLogger(PedidoFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return itensLista;
     }
 }

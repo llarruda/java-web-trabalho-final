@@ -289,8 +289,11 @@ public class PedidoServlet extends HttpServlet {
         PedidoFacade pedidoFacade = new PedidoFacade();
          
         List<Pedido> lista = pedidoFacade.listarPedidosPorId(pedido);
-       
         request.setAttribute("lista", lista);
+        
+        List<ItemDoPedido> itensPedido = pedidoFacade.listarItensPedido(pedido);  
+        request.setAttribute("listaItens", itensPedido);
+     
              RequestDispatcher rd = getServletContext()
                      .getRequestDispatcher("/detalhesPedido.jsp");
              rd.forward(request, response);
