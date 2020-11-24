@@ -87,14 +87,14 @@
                     <c:forEach var="pedido" items="${lista}">
                         <tr>
                             <td>${pedido.id}</td>
-                            <td>${pedido.data}</td>
-                            <td>${pedido.getCliente().getCpf()}</td>
+                            <td id="mask">${pedido.data}</td>
+                            <td class="cpf">${pedido.getCliente().getCpf()}</td>
                             <td>${pedido.getCliente().getNome()} ${pedido.getCliente().getSobreNome()}</td>
                             <td>
                                 <div class="form-row">
                                     <form action="${pageContext.request.contextPath}/pedidos/edit?id=" method="GET" style="margin-right: 8px">
                                         <input type="hidden" name="id" value="${produto.id}">
-                                        <button type="submit" class="btn btn-primary">Editar</button>
+                                        <button type="submit" class="btn btn-primary">Detalhes</button>
                                     </form>
 <!--                                    <form action="excluir" method="POST">
                                         <input type="hidden" name="id" value="${cliente.id}"">
@@ -119,6 +119,15 @@
         $(document).ready(function(){
             $('.cpf').mask('999.999.999-99');
         });
+        
+        $(document).ready(function(){
+            $('.mask').val();
+            let data = $this.val();
+            let split = data.split('T'); //separa a data da hora
+            let formmated = split[0].split('-');
+
+            $this.val(formmated[2]);
+        }
     </script> 
     </body>
 </html>

@@ -16,7 +16,7 @@
             overflow-x:auto;
         }
         
-        li {
+        .quantidadeCenter {
             text-align: center;
         }
     </style>
@@ -104,10 +104,11 @@
                     <form id="formPedidos" action="${pageContext.request.contextPath}/pedidos/addItens" method="POST" accept-charset="iso-8859-1, utf-8">
                         <div id="teste" class="form-group">
                             <li class="list-group-item">Itens</li>
+                            <input form="formPedidos" type="hidden" class="form-control" name="pedido_gerado" value="${pedido_id}" required minlength="3" maxlength="80"> 
                         </div>
 
                         <button form="formPedidos" type="submit" class="btn btn-success">Finalizar Pedido</button>
-                        <a class="btn btn-danger" href="${pageContext.request.contextPath}/produtos/list" role="button" style="float: right">Voltar</a>
+                        <a class="btn btn-danger" href="${pageContext.request.contextPath}/pedidos/list" role="button" style="float: right">Voltar</a>
                     </form>
                     
                 </table>
@@ -153,8 +154,8 @@
                 //li.innerHTML = "<label>" + val + "</label>" + "<input type=\"text\" class=\"form-control\" name=\"quantidade" + "[" +  contadorNomeInputs + "]" +"\" placeholder=\"quantidade\"></input>" +
                 //"<input type=\"hidden\" class=\"form-control\" name=\"id" + "[" +  contadorNomeInputs + "]" +"\" value=\"" + idProd + "\" readonly></input>";
                 
-                li.innerHTML = "<label>" + val + "</label>" + "<input form=\"formPedidos\" type=\"text\" class=\"form-control\" name=\"quantidade\" placeholder=\"quantidade\" required minlength=\"1\"></input>" +
-                "<input form=\"formPedidos\" type=\"hidden\" class=\"form-control\" name=\"id\" value=\"" + idProd + "\" readonly></input>";
+                li.innerHTML = "<label>" + val + "</label>" + "<input form=\"formPedidos\" type=\"text\" class=\"form-control w-25\" name=\"quantidade\" placeholder=\"quantidade\" required minlength=\"1\"></input>" +
+                "<input form=\"formPedidos\" type=\"hidden\" class=\"form-control\" name=\"id\" value=\""+idProd+"\" readonly></input>";
                 
                 
                 var ul = document.getElementById("teste");

@@ -6,6 +6,7 @@
 package controller;
 
 import facade.ClienteFacade;
+import facade.ItemDoPedidoFacade;
 import facade.PedidoFacade;
 import facade.ProdutoFacade;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Cliente;
+import model.ItemDoPedido;
 import model.Pedido;
 import model.Produto;
 
@@ -234,17 +236,21 @@ public class PedidoServlet extends HttpServlet {
         String id[] = request.getParameterValues("id");
         String quantidade[] = request.getParameterValues("quantidade");
         
-        System.out.println("Id: " + id[0]);
-        System.out.println("quantidade: " + quantidade[0]);
+        int pedidoGerado = Integer.parseInt(request.getParameter("pedido_gerado"));
+        Pedido pedido = new Pedido(pedidoGerado, null, null, null);
+        System.out.println(pedidoGerado);
         
-        //String[] id = request.getParameterValues("id");
+        for(int i = 0; i < id.length; i++) {
+            Produto prod = new Produto(Integer.parseInt(id[i].trim()), "");
+            
+            ItemDoPedido item = new ItemDoPedido(prod, Integer.parseInt(quantidade[i]));
         
-        /*if (id != null) {
-            System.out.println("eeeee");
-        } else {
-            System.err.println("Rtetornando null");
-        }*/
+            ItemDoPedidoFacade itemPedidoFacade = new ItemDoPedidoFacade();
+            
+            itemPedidoFacade.inserir(item, pedido);
+        }
         
+        // DEBUG
         Enumeration<String> parameterNames = request.getParameterNames();
  
         while (parameterNames.hasMoreElements()) {
@@ -254,12 +260,14 @@ public class PedidoServlet extends HttpServlet {
  
         }
         
-        
-        
-       
-        
-        RequestDispatcher rd = request.getRequestDispatcher("/pedidos.jsp");
-            rd.forward(request, response);
+        List<Pedido> lista = pedidoFacade.listarPedidos();
+        for (Pedido p : lista) {
+                System.out.printf("LISTA DE PEDIDOS \n%s %d\n", p.getCliente().getCpf(), p.getCliente().getId());
+        }
+        request.setAttribute("lista", lista);
+        RequestDispatcher rd = getServletContext()
+                .getRequestDispatcher("/pedidos.jsp");
+        rd.forward(request, response);
     }
     
     @Override
