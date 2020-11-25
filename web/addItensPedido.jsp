@@ -142,7 +142,7 @@
 
                 var idProd = val.substr(0, val.indexOf('-'));
 
-                li.innerHTML = "<label>" + val + "</label>" + "<input form=\"formPedidos\" type=\"text\" class=\"form-control w-25\" name=\"quantidade\" placeholder=\"quantidade\" required minlength=\"1\"></input>" +
+                li.innerHTML = "<label>" + val + "</label>" + "<input form=\"formPedidos\" type=\"number\" class=\"form-control w-25\" name=\"quantidade\" placeholder=\"quantidade\" required min=\"1\" max=\"1000000\"></input>" +
                 "<input form=\"formPedidos\" type=\"hidden\" class=\"form-control\" name=\"id\" value=\""+idProd+"\" readonly></input>";
 
 
