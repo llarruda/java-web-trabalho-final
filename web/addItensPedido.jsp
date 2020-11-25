@@ -46,31 +46,31 @@
                     <c:remove var="sucessomsg" scope="session"/>
                 </c:if>
                 <div class="table-overflow">
-                <table class="table table-bordered">
-                    <tr>
-                        <th scope="col" style="width: 0.1%">ID</th>
-                        <th scope="col" style="width: 1%">Descrição</th>
-                         <th scope="col" style="width: 0.1%">Ação</th>
-                    </tr>
-                    <c:forEach var="produto" items="${listaProdutos}">
+                    <table class="table table-bordered">
                         <tr>
-                            <td>${produto.id}</td>
-                            <td>${produto.descricao}</td>
-                            <td>
-                                <div class="form-row">
-                                    
-                                        <input class="userinput" type="hidden" name="id" value="${produto.id} - ${produto.descricao}">
-                                        <button onclick="addItens(this)" class="add btn btn-primary">Adicionar</button>
-                                    
-<!--                                    <form action="excluir" method="POST">
-                                        <input type="hidden" name="id" value="${cliente.id}"">
-                                        <button class="btn btn-danger" data-catid="${cliente.id}" data-toggle="modal" data-target="#delete">Excluir</button>
-                                    </form>-->
-                                </div>    
-                            </td>
+                            <th scope="col" style="width: 0.1%">ID</th>
+                            <th scope="col" style="width: 1%">Descrição</th>
+                             <th scope="col" style="width: 0.1%">Ação</th>
                         </tr>
-                    </c:forEach>
-                </table>
+                        <c:forEach var="produto" items="${listaProdutos}">
+                            <tr>
+                                <td>${produto.id}</td>
+                                <td>${produto.descricao}</td>
+                                <td>
+                                    <div class="form-row">
+
+                                            <input class="userinput" type="hidden" name="id" value="${produto.id} - ${produto.descricao}">
+                                            <button onclick="addItens(this)" class="add btn btn-primary">Adicionar</button>
+
+    <!--                                    <form action="excluir" method="POST">
+                                            <input type="hidden" name="id" value="${cliente.id}"">
+                                            <button class="btn btn-danger" data-catid="${cliente.id}" data-toggle="modal" data-target="#delete">Excluir</button>
+                                        </form>-->
+                                    </div>    
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
                 </div>
             </div>
         </div>
@@ -90,20 +90,23 @@
                         Pedido alterado com sucesso!
                     </div>
                     <c:remove var="alterarmsg" scope="session"/>
-                </c:if>                   
-                <table class="table table-bordered">
-                   
-                    
-                    <form id="formPedidos" action="${pageContext.request.contextPath}/pedidos/addItens" method="POST" accept-charset="iso-8859-1, utf-8">
-                        <input form="formPedidos" type="hidden" class="form-control" name="pedido_gerado" value="${pedido_id}" required minlength="3" maxlength="80"> 
-                        <div id="teste" class="form-group">
-                            <li class="list-group-item" style="display: none;">Itens do Pedido</li>
-                        </div>
-                        <button form="formPedidos" type="submit" class="btn btn-success" style="float: right">Finalizar Pedido</button>
-                    </form>
-                    <button onclick="remIten(this)" class="btn btn-danger" data-catid="${produto.id}">Limpar Itens</button>
-                    
-                </table>
+                </c:if>
+                <div class="table-overflow">
+                    <table class="table table-bordered">
+
+
+                        <form id="formPedidos" action="${pageContext.request.contextPath}/pedidos/addItens" method="POST" accept-charset="iso-8859-1, utf-8">
+                            <input form="formPedidos" type="hidden" class="form-control" name="pedido_gerado" value="${pedido_id}" required minlength="3" maxlength="80"> 
+                            <div id="teste" class="form-group">
+                                <li class="list-group-item" style="display: none;">Itens do Pedido</li>
+                            </div>
+                        </form>
+                        
+
+                    </table>
+                </div>
+                <button form="formPedidos" type="submit" class="btn btn-success" style="float: right">Finalizar Pedido</button>
+                <button onclick="remIten(this)" class="btn btn-danger" data-catid="${produto.id}">Limpar Itens</button>
             </div>
             </div>
         </div>

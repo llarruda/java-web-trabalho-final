@@ -95,7 +95,7 @@
                 </c:if>
                 <c:if test="${pedidoSemItens == true}">
                     <div class="alert alert-danger" role="alert">
-                        Pedido sem itens finalizado. O registro não será mantido.
+                        Pedido finalizado sem informar itens. Pedido removido.
                     </div>
                     <c:remove var="pedidoSemItens" scope="session"/>
                 </c:if>

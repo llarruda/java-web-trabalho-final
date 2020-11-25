@@ -20,6 +20,16 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" integrity="sha512-0XDfGxFliYJPFrideYOoxdgNIvrwGTLnmK20xZbCAvPfLGQMzHUsaqZK8ZoH+luXGRxTrS46+Aq400nCnAT0/w==" crossorigin="anonymous"></script>
         
         <title>Pedidos</title>
+        <style type="text/css">
+            .table-overflow {
+                max-height:500px;
+                overflow-x:auto;
+            }
+
+            .quantidadeCenter {
+                text-align: center;
+            }
+        </style>
     </head>
     <body style="background-color: #F8F9FA;">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -109,21 +119,23 @@
                 
                 <h3 class="text-center">Listagem Itens</h3>
                 
-                <table class="table table-bordered">
-                    <tr>
-                        <th scope="col" style="width: 0.2%">ID</th>
-                        <th scope="col" style="width: 1%">Produto</th>
-                        <th scope="col" style="width: 0.5%">Quantidade</th>
-                    </tr>
-                    <c:forEach var="item" items="${listaItens}">
+                <div class="table-overflow">
+                    <table class="table table-bordered">
                         <tr>
-                            <td>${item.getProduto().getId()}</td>
-                            <td>${item.getProduto().getDescricao()}</td>
-                            <td>${item.quantidade}</td>
-                            
+                            <th scope="col" style="width: 0.2%">ID</th>
+                            <th scope="col" style="width: 1%">Produto</th>
+                            <th scope="col" style="width: 0.5%">Quantidade</th>
                         </tr>
-                    </c:forEach>
-                </table>
+                        <c:forEach var="item" items="${listaItens}">
+                            <tr>
+                                <td>${item.getProduto().getId()}</td>
+                                <td>${item.getProduto().getDescricao()}</td>
+                                <td>${item.quantidade}</td>
+
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </div>
             </div>
             </div>
                         
