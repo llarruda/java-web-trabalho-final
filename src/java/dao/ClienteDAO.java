@@ -21,11 +21,11 @@ import model.Cliente;
  * @author Junior
  */
 public class ClienteDAO {
-    private final String stmtInserir = "INSERT INTO cliente(cpf, nome, sobrenome) VALUES(?,?,?)";
+    private final String stmtInserir = "INSERT INTO cliente(cpf, nome, sobrenome) VALUES(?,?,?);";
     private final String stmtConsultarPorId = "SELECT id, cpf, nome, sobrenome FROM cliente WHERE id = ?";
-    private final String stmtConsultarPorCpf = "SELECT id, cpf, nome, sobrenome FROM cliente WHERE cpf = ?";
-    private final String stmtListar = "SELECT id, cpf, nome, sobrenome FROM cliente";
-    private final String stmtAtualizar = "UPDATE cliente SET cpf = ?, nome = ?, sobrenome = ? WHERE id = ?";
+    private final String stmtConsultarPorCpf = "SELECT id, cpf, nome, sobrenome FROM cliente WHERE cpf = ?;";
+    private final String stmtListar = "SELECT id, cpf, nome, sobrenome FROM cliente ORDER BY id DESC LIMIT 15;";
+    private final String stmtAtualizar = "UPDATE cliente SET cpf = ?, nome = ?, sobrenome = ? WHERE id = ?;";
     private final String stmtExcluir = "DELETE FROM cliente WHERE ID = ?";
     private final String stmtQnt = "SELECT COUNT(*) FROM cliente";
     

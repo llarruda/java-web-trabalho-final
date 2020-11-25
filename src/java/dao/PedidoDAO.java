@@ -31,11 +31,11 @@ public class PedidoDAO {
                                                         "INNER JOIN cliente AS c ON p.id_cliente = c.id " +
                                                         "WHERE p.id = ?;";
     private final String selectPedidos = "SELECT p.id, p.data, p.id_cliente, c.id  AS cod_cliente, c.nome, c.sobrenome, c.cpf FROM pedido AS p " +
-                                                "INNER JOIN cliente AS c ON p.id_cliente = c.id ORDER by p.data LIMIT 15;";
+                                                "INNER JOIN cliente AS c ON p.id_cliente = c.id ORDER by p.data DESC LIMIT 15;";
     
     private final String selectPedidosPorCliente = "SELECT p.id, p.data, p.id_cliente, c.id AS cod_cliente, c.nome, c.sobrenome, c.cpf FROM pedido AS p " +
                                                         "INNER JOIN cliente AS c ON p.id_cliente = c.id " +
-                                                        "WHERE c.cpf = ?;";
+                                                        "WHERE c.cpf = ? ORDER by p.data DESC;";
     private final String updatePedido = "UPDATE pedido set data = ?, id_cliente = ? WHERE id_cliente = ?";
     private final String deletePedido = "DELETE FROM pedido WHERE id = ?;";
     private final String selectListaPedido = "SELECT id, data, id_cliente FROM pedido WHERE id_cliente = ?;";
