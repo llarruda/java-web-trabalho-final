@@ -186,10 +186,15 @@ public class ProdutoServlet extends HttpServlet {
             throws ServletException, IOException {
 
         int id = Integer.parseInt(request.getParameter("id"));
-        produtoFacade.deletar(id);
-
-        boolean excluir = true;
-        request.getSession().setAttribute("excluirmsg", excluir);
+        int quantidadeProdutosDeletados = produtoFacade.deletar(id);
+        System.out.println("Teste" + quantidadeProdutosDeletados);
+        if (quantidadeProdutosDeletados > 0) {
+            boolean excluir = true;
+            request.getSession().setAttribute("excluirmsg", excluir);
+        } else {
+            boolean prodtutoAssociadoPedido = true;
+            request.getSession().setAttribute("produtoAssociado", prodtutoAssociadoPedido);
+        }
 
         response.sendRedirect("produtos");
     }

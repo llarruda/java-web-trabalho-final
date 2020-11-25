@@ -24,7 +24,7 @@ public class ProdutoDAO {
     private final String selectProduto = "SELECT id, descricao FROM produto WHERE id = ?;";
     private final String updateProduto = "UPDATE produto SET descricao = ? WHERE id = ?;";
     private final String deleteProduto = "DELETE FROM produto WHERE id = ? AND id NOT IN (SELECT id_produto FROM item_do_pedido);";
-    private final String selectListaProduto = "SELECT id, descricao FROM produto LIMIT 10;";
+    private final String selectListaProduto = "SELECT id, descricao FROM produto LIMIT 8;";
     private final String countProduto = "SELECT COUNT(*) FROM produto";
     private final String searchProdutoByDesc = "SELECT id, descricao FROM produto WHERE descricao LIKE ?;";
     
@@ -172,7 +172,7 @@ public class ProdutoDAO {
     /**
      * Método excluir um produto específico
      * @param produto- um objeto do tipo produto
-     * return void
+     * @return quantidadde de produtos deletados
      * @throws SQLException 
      */
     public int deleteProduto(Produto produto) throws SQLException {
@@ -197,7 +197,7 @@ public class ProdutoDAO {
             pstmtDelete.execute();
             
             itensDeletados = pstmtDelete.getUpdateCount();
-            System.out.println(itensDeletados);
+            System.out.println("Quantidade de produtos deltados: " + itensDeletados);
             
             // @DEGUB
             System.out.println("Passou do execute");
@@ -206,7 +206,7 @@ public class ProdutoDAO {
             con.commit();
             
             // @DEBUG
-            System.out.print("Dados registrados com sucesso.");
+            System.out.print("Commit da operação.");
            
             
         } catch (SQLException e) {

@@ -69,13 +69,17 @@ public class ProdutoFacade {
         return qnt;
     }
     
-    public void deletar(int id) {
+    public int deletar(int id) {
+        
+        int quantidadeProdutosDeletados = 0;
         try {
             Produto produto = produtoDAO.selectProduto(id);
-            produtoDAO.deleteProduto(produto);
+            quantidadeProdutosDeletados = produtoDAO.deleteProduto(produto);
         } catch (SQLException ex) {
             Logger.getLogger(ProdutoFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return quantidadeProdutosDeletados;
     }
     
     public List<Produto> searchProdutoByDesc(String descricao) {

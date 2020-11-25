@@ -82,6 +82,12 @@
                     </div>
                     <c:remove var="produtoNotFound" scope="session"/>
                 </c:if>
+                <c:if test="${produtoAssociado == true}">
+                    <div class="alert alert-danger" role="alert">
+                        O Produto não pode ser removido por estar associado a um pedido!
+                    </div>
+                    <c:remove var="produtoAssociado" scope="session"/>
+                </c:if>
                 <table class="table table-bordered">
                     <tr>
                         <th scope="col" style="width: 0.2%">ID</th>
