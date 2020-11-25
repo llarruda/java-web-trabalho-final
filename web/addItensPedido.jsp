@@ -38,11 +38,12 @@
         <br>
         <div class="row-sm">
             <div class="container col-md-4">
-                <c:if test="${descricaoExists == true}">
-                    <div class="alert alert-danger" role="alert">
-                        Já existe produto cadastrado com a descrição informada!
+                <c:if test="${sucessomsg == true}">
+                    <div class="alert alert-success" role="alert">
+                        Pedido: <span class="cpf" style="font-weight: bold;">${pedido_id}</span>.<br>
+                        Clique em Adicionar e informe a quantidade do item adicionado.
                     </div>
-                    <c:remove var="descricaoExists" scope="session"/>
+                    <c:remove var="sucessomsg" scope="session"/>
                 </c:if>
                 <div class="table-overflow">
                 <table class="table table-bordered">
@@ -78,13 +79,6 @@
         <div class="row-sm">
             <div class="container">
                 <br>
-                <c:if test="${sucessomsg == true}">
-                    <div class="alert alert-success" role="alert">
-                        Debug: Pedido registrado!
-                        ID <span class="cpf" style="font-weight: bold;">${pedido_id}</span>
-                    </div>
-                    <c:remove var="sucessomsg" scope="session"/>
-                </c:if>
                 <c:if test="${excluirmsg == true}">
                     <div class="alert alert-danger" role="alert">
                         Pedido excluido!
