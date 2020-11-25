@@ -49,7 +49,7 @@
                     <tr>
                         <th scope="col" style="width: 0.1%">ID</th>
                         <th scope="col" style="width: 1%">Descrição</th>
-                         <th scope="col" style="width: 0.5%">Ação</th>
+                         <th scope="col" style="width: 0.1%">Ação</th>
                     </tr>
                     <c:forEach var="produto" items="${listaProdutos}">
                         <tr>
@@ -114,77 +114,56 @@
             </div>
         </div>
         
-        <script>
-           $(document).ready(function(){
-             $('#cpf').mask('999.999.999-99');
-           });
+    <script>
+       $(document).ready(function(){
+         $('#cpf').mask('999.999.999-99');
+       });
 
+        var clicks = 0;
+        var quantidade = 1;
+        var list = [];
 
-            var clicks = 0;
-            var quantidade = 1;
-            var list = [];
-            
-            contadorNomeInputs = 0;
-            
-            var listInserir = [];
-            
-           //var buttons = document.getElementsByClassName("add");
-           function addItens(elem) {
-  
+        contadorNomeInputs = 0;
+
+        var listInserir = [];
+
+        function addItens(elem) {
             var $this = $(elem); //< -- wrap the element in a jQuery wrapper
             var val = $this.siblings('input[type=hidden]').val();
-            console.log(val);
-            
-            
+ 
             // se não for clicado antes (não houver na lista)
             if (!(list.includes(val))) {
                 list.push(val);
-                
+
                 ++contadorNomeInputs;
-                
+
                 var li = document.createElement("li");
                 li.className = 'list-group-item';
-                
+
                 var input = document.createElement("input");
                 input.setAttribute('type', 'text');
-                
+
                 var idProd = val.substr(0, val.indexOf('-'));
-                //li.innerHTML = "<label>" + val + "</label>" + "<input type=\"text\" class=\"form-control\" name=\"quantidade" + "[" +  contadorNomeInputs + "]" +"\" placeholder=\"quantidade\"></input>" +
-                //"<input type=\"hidden\" class=\"form-control\" name=\"id" + "[" +  contadorNomeInputs + "]" +"\" value=\"" + idProd + "\" readonly></input>";
-                
+
                 li.innerHTML = "<label>" + val + "</label>" + "<input form=\"formPedidos\" type=\"text\" class=\"form-control w-25\" name=\"quantidade\" placeholder=\"quantidade\" required minlength=\"1\"></input>" +
                 "<input form=\"formPedidos\" type=\"hidden\" class=\"form-control\" name=\"id\" value=\""+idProd+"\" readonly></input>";
-                
-                
+
+
                 var ul = document.getElementById("teste");
-                ul.appendChild(li);
-                
-                if (quantidade > 1) {
-                    itenAtual = [val, quantidade];
-                    listInserir.push(itenAtual);
-                    quantidade = 1;
-                    console.log(listInserir);
-                }
-                console.log(list, quantidade);
-            } else {
-                ++quantidade;
-                console.log(list, quantidade);
-            }
-            
-           }
-           
-           function remIten(elem) {
-               
+                ul.appendChild(li); 
+            }  
+       }
+
+       function remIten(elem) {
             list = [];
-               
-            var $this = $(elem); //< -- wrap the element in a jQuery wrapper
-            //var val = $this.siblings('input[type=hidden]').val();
-            
+
+            var $this = $(elem);
+
             var elem = document.getElementById('teste');
             while (elem.firstChild) {
                 elem.removeChild(elem.firstChild);
             }
-           }
-        </script>
+       }
+    </script>
     </body>
 </html>
