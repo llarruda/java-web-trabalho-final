@@ -31,7 +31,7 @@ public class PedidoDAO {
                                                         "INNER JOIN cliente AS c ON p.id_cliente = c.id " +
                                                         "WHERE p.id = ?;";
     private final String selectPedidos = "SELECT p.id, p.data, p.id_cliente, c.id  AS cod_cliente, c.nome, c.sobrenome, c.cpf FROM pedido AS p " +
-                                                "INNER JOIN cliente AS c ON p.id_cliente = c.id LIMIT 10;";
+                                                "INNER JOIN cliente AS c ON p.id_cliente = c.id ORDER by p.data LIMIT 8;";
     
     private final String selectPedidosPorCliente = "SELECT p.id, p.data, p.id_cliente, c.id AS cod_cliente, c.nome, c.sobrenome, c.cpf FROM pedido AS p " +
                                                         "INNER JOIN cliente AS c ON p.id_cliente = c.id " +
