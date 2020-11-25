@@ -202,6 +202,7 @@ public class PedidoServlet extends HttpServlet {
             throws ServletException, IOException {
         
         String cpf = request.getParameter("cpf");
+        request.getSession().setAttribute("cpf_consultado", cpf);
 
         cpf = cpf.replaceAll("\\.", "");
         cpf = cpf.replaceAll("-", "");
@@ -213,16 +214,20 @@ public class PedidoServlet extends HttpServlet {
         
         List<Pedido> lista;
         
+        
         if (cliente == null) {
             boolean cpfNotFound = true;
             request.getSession().setAttribute("cpfNotFound", cpfNotFound);
-            request.getSession().setAttribute("cpf_consultado", cpf);
             
             lista = pedidoFacade.listarPedidos();
                
         } else {
-
             lista = pedidoFacade.listarPedidosCliente(cliente);
+            
+            if (lista.size() < 1) {
+                request.getSession().setAttribute("clienteSemPedido", true);
+                lista = pedidoFacade.listarPedidos();
+            }
         }
         
         request.setAttribute("lista", lista);

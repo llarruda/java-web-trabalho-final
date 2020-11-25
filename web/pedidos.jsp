@@ -75,7 +75,13 @@
                         Cliente não encontrado.
                     </div>
                     <c:remove var="cpfNotFound" scope="session"/>
-                </c:if>                   
+                </c:if>
+                <c:if test="${clienteSemPedido == true}">
+                    <div class="alert alert-danger" role="alert">
+                        Cliente ainda não possui nenhum pedido cadastrado. CPF consultado: <span class="cpf" style="font-weight: bold;">${cpf_consultado}</span>.
+                    </div>
+                    <c:remove var="clienteSemPedido" scope="session"/>
+                </c:if> 
                 <table class="table table-bordered">
                     <tr>
                         <th scope="col" style="width: 0.2%">ID</th>
