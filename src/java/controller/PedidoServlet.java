@@ -248,16 +248,30 @@ public class PedidoServlet extends HttpServlet {
         
         if (id == null) {
            pedidoFacade.deletar(pedido);
+           request.getSession().setAttribute("pedidoSemItens", true);
         } else {
-        
+            int totalItens = 0;
+                    
             for(int i = 0; i < id.length; i++) {
-                Produto prod = new Produto(Integer.parseInt(id[i].trim()), "");
+                int qtdParsed = Integer.parseInt(quantidade[i]);
+                totalItens += qtdParsed;
 
-                ItemDoPedido item = new ItemDoPedido(prod, Integer.parseInt(quantidade[i]));
+                if (qtdParsed > 0) { 
+                    Produto prod = new Produto(Integer.parseInt(id[i].trim()), "");
+                    ItemDoPedido item = new ItemDoPedido(prod, qtdParsed);
 
-                ItemDoPedidoFacade itemPedidoFacade = new ItemDoPedidoFacade();
+                    ItemDoPedidoFacade itemPedidoFacade = new ItemDoPedidoFacade();
 
-                itemPedidoFacade.inserir(item, pedido);
+                    itemPedidoFacade.inserir(item, pedido);
+                }
+            }
+            
+            // DEBUG
+            System.out.println("Quantidade Itens > " + totalItens);
+            
+            if (totalItens == 0) {
+                pedidoFacade.deletar(pedido);
+                request.getSession().setAttribute("pedidoSemItens", true);
             }
         }
         
@@ -279,8 +293,6 @@ public class PedidoServlet extends HttpServlet {
         RequestDispatcher rd = getServletContext()
                 .getRequestDispatcher("/pedidos.jsp");
         rd.forward(request, response);
-        
-        
     }
     
     protected void detalharPedido(HttpServletRequest request, HttpServletResponse response)

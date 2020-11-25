@@ -20,6 +20,17 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" integrity="sha512-0XDfGxFliYJPFrideYOoxdgNIvrwGTLnmK20xZbCAvPfLGQMzHUsaqZK8ZoH+luXGRxTrS46+Aq400nCnAT0/w==" crossorigin="anonymous"></script>
         
         <title>Produtos</title>
+        
+        <style type="text/css">
+            .table-overflow {
+                max-height:680px;
+                overflow-x:auto;
+            }
+
+            .quantidadeCenter {
+                text-align: center;
+            }
+        </style>
     </head>
     <body style="background-color: #F8F9FA;">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -88,32 +99,34 @@
                     </div>
                     <c:remove var="produtoAssociado" scope="session"/>
                 </c:if>
-                <table class="table table-bordered">
-                    <tr>
-                        <th scope="col" style="width: 0.2%">ID</th>
-                        <th scope="col" style="width: 1%">Descrição</th>
-                        <th scope="col" style="width: 0.2%">Ação</th>
-                    </tr>
-                    <c:forEach var="produto" items="${lista}">
+                <div class="table-overflow">
+                    <table class="table table-bordered">
                         <tr>
-                            <td>${produto.id}</td>
-                            <td>${produto.descricao}</td>
-                            <td>
-                                <div class="form-row">
-                                    <form action="${pageContext.request.contextPath}/produtos/edit?id=" method="GET" style="margin-right: 8px">
-                                        <input type="hidden" name="id" value="${produto.id}">
-                                        <button type="submit" class="btn btn-primary">Editar</button>
-                                    </form>
-<!--                                    <form action="excluir" method="POST">
-                                        <input type="hidden" name="id" value="${cliente.id}"">
-                                        <button class="btn btn-danger" data-catid="${cliente.id}" data-toggle="modal" data-target="#delete">Excluir</button>
-                                    </form>-->
-                                    <button class="btn btn-danger" data-catid="${produto.id}" data-toggle="modal" data-target="#delete">Excluir</button>
-                                </div>    
-                            </td>
+                            <th scope="col" style="width: 0.2%">ID</th>
+                            <th scope="col" style="width: 1%">Descrição</th>
+                            <th scope="col" style="width: 0.2%">Ação</th>
                         </tr>
-                    </c:forEach>
-                </table>
+                        <c:forEach var="produto" items="${lista}">
+                            <tr>
+                                <td>${produto.id}</td>
+                                <td>${produto.descricao}</td>
+                                <td>
+                                    <div class="form-row">
+                                        <form action="${pageContext.request.contextPath}/produtos/edit?id=" method="GET" style="margin-right: 8px">
+                                            <input type="hidden" name="id" value="${produto.id}">
+                                            <button type="submit" class="btn btn-primary">Editar</button>
+                                        </form>
+    <!--                                    <form action="excluir" method="POST">
+                                            <input type="hidden" name="id" value="${cliente.id}"">
+                                            <button class="btn btn-danger" data-catid="${cliente.id}" data-toggle="modal" data-target="#delete">Excluir</button>
+                                        </form>-->
+                                        <button class="btn btn-danger" data-catid="${produto.id}" data-toggle="modal" data-target="#delete">Excluir</button>
+                                    </div>    
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </div>
             </div>
 
             <!-- Modal -->

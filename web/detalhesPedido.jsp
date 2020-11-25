@@ -92,8 +92,8 @@
                             <td>${pedido.getCliente().getNome()} ${pedido.getCliente().getSobreNome()}</td>
                             <td>
                                 <div class="form-row">
-                                    <form action="${pageContext.request.contextPath}/pedidos/list" method="GET" style="margin-right: 8px">
-                                        
+                                    <form action="${pageContext.request.contextPath}/pedidos/search" method="POST" style="margin-right: 8px">
+                                        <input type="hidden" name="cpf" class="cpf form-control mr-sm-2" value="${pedido.getCliente().getCpf()}" aria-label="Search">
                                         <button type="submit" class="btn btn-primary">Voltar</button>
                                     </form>
 <!--                                    <form action="excluir" method="POST">
@@ -125,6 +125,30 @@
                     </c:forEach>
                 </table>
             </div>
+            </div>
+                        
+            <!-- Modal -->
+            <div class="modal modal-danger fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog  modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="TituloModalCentralizado">Confirmar exclusão</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="delete" method="POST">
+                            <div class="modal-body">
+                                Deseja excluir esse pedido?
+                                <input type="hidden" name="id" id="cat_id" value="">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Excluir</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     <footer>

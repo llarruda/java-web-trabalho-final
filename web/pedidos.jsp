@@ -20,6 +20,17 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" integrity="sha512-0XDfGxFliYJPFrideYOoxdgNIvrwGTLnmK20xZbCAvPfLGQMzHUsaqZK8ZoH+luXGRxTrS46+Aq400nCnAT0/w==" crossorigin="anonymous"></script>
         
         <title>Pedidos</title>
+        
+        <style type="text/css">
+            .table-overflow {
+                max-height:680px;
+                overflow-x:auto;
+            }
+
+            .quantidadeCenter {
+                text-align: center;
+            }
+        </style>
     </head>
     <body style="background-color: #F8F9FA;">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -81,38 +92,45 @@
                         Cliente ainda não possui nenhum pedido cadastrado. CPF consultado: <span class="cpf" style="font-weight: bold;">${cpf_consultado}</span>.
                     </div>
                     <c:remove var="clienteSemPedido" scope="session"/>
-                </c:if> 
-                <table class="table table-bordered">
-                    <tr>
-                        <th scope="col" style="width: 0.2%">ID</th>
-                        <th scope="col" style="width: 0.5%">Data</th>
-                        <th scope="col" style="width: 0.2%">CPF</th>
-                        <th scope="col" style="width: 2.5%">Cliente</th>
-                         <th scope="col" style="width: 0.5%">Ação</th>
-                    </tr>
-                    <c:forEach var="pedido" items="${lista}">
+                </c:if>
+                <c:if test="${pedidoSemItens == true}">
+                    <div class="alert alert-danger" role="alert">
+                        Pedido sem itens finalizado. O registro não será mantido.
+                    </div>
+                    <c:remove var="pedidoSemItens" scope="session"/>
+                </c:if>
+                <div class="table-overflow">
+                    <table class="table table-bordered">
                         <tr>
-                            <td>${pedido.id}</td>
-                            <td class="rawDate">${pedido.data}</td>
-                            <td class="cpf">${pedido.getCliente().getCpf()}</td>
-                            <td>${pedido.getCliente().getNome()} ${pedido.getCliente().getSobreNome()}</td>
-                            <td>
-                                <div class="form-row">
-                                    <form action="${pageContext.request.contextPath}/pedidos/detail?id=" method="GET" style="margin-right: 8px">
-                                        <input type="hidden" name="id" value="${pedido.id}">
-                                        <button type="submit" class="btn btn-primary">Detalhes</button>
-                                    </form>
-<!--                                    <form action="excluir" method="POST">
-                                        <input type="hidden" name="id" value="${cliente.id}"">
-                                        <button class="btn btn-danger" data-catid="${cliente.id}" data-toggle="modal" data-target="#delete">Excluir</button>
-                                    </form>-->
-                                    <button class="btn btn-danger" data-catid="${pedido.id}" data-toggle="modal" data-target="#delete">Excluir</button>
-                                </div>    
-                            </td>
+                            <th scope="col" style="width: 0.2%">ID</th>
+                            <th scope="col" style="width: 0.5%">Data</th>
+                            <th scope="col" style="width: 0.2%">CPF</th>
+                            <th scope="col" style="width: 2.5%">Cliente</th>
+                             <th scope="col" style="width: 0.5%">Ação</th>
                         </tr>
-                    </c:forEach>
-                </table>
-            </div>
+                        <c:forEach var="pedido" items="${lista}">
+                            <tr>
+                                <td>${pedido.id}</td>
+                                <td class="rawDate">${pedido.data}</td>
+                                <td class="cpf">${pedido.getCliente().getCpf()}</td>
+                                <td>${pedido.getCliente().getNome()} ${pedido.getCliente().getSobreNome()}</td>
+                                <td>
+                                    <div class="form-row">
+                                        <form action="${pageContext.request.contextPath}/pedidos/detail?id=" method="GET" style="margin-right: 8px">
+                                            <input type="hidden" name="id" value="${pedido.id}">
+                                            <button type="submit" class="btn btn-primary">Detalhes</button>
+                                        </form>
+    <!--                                    <form action="excluir" method="POST">
+                                            <input type="hidden" name="id" value="${cliente.id}"">
+                                            <button class="btn btn-danger" data-catid="${cliente.id}" data-toggle="modal" data-target="#delete">Excluir</button>
+                                        </form>-->
+                                        <button class="btn btn-danger" data-catid="${pedido.id}" data-toggle="modal" data-target="#delete">Excluir</button>
+                                    </div>    
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </div>
             </div>
                         
                          <!-- Modal -->

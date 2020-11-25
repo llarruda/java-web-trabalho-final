@@ -33,7 +33,7 @@
     </head>
     <body>
 
-        <h2 class="text-center">Adicionar Itens</h2>
+        <h2 class="text-center">Novo Pedido - Adicionar Itens</h2>
         <br>
         <br>
         <div class="row-sm">
@@ -49,7 +49,7 @@
                     <tr>
                         <th scope="col" style="width: 0.1%">ID</th>
                         <th scope="col" style="width: 1%">Descrição</th>
-                         <th scope="col" style="width: 1%">Ação</th>
+                         <th scope="col" style="width: 0.5%">Ação</th>
                     </tr>
                     <c:forEach var="produto" items="${listaProdutos}">
                         <tr>
@@ -65,7 +65,6 @@
                                         <input type="hidden" name="id" value="${cliente.id}"">
                                         <button class="btn btn-danger" data-catid="${cliente.id}" data-toggle="modal" data-target="#delete">Excluir</button>
                                     </form>-->
-                                    <button onclick="remIten(this)" class="btn btn-danger" data-catid="${produto.id}" data-toggle="modal" data-target="#delete">Remover</button>
                                 </div>    
                             </td>
                         </tr>
@@ -75,7 +74,7 @@
             </div>
         </div>
         <br>
-        <h2 class="text-center">Detalhe do Pedido</h2>
+        <h3 class="text-center">Itens do Pedido</h3>
         <div class="row-sm">
             <div class="container">
                 <br>
@@ -104,12 +103,11 @@
                     <form id="formPedidos" action="${pageContext.request.contextPath}/pedidos/addItens" method="POST" accept-charset="iso-8859-1, utf-8">
                         <input form="formPedidos" type="hidden" class="form-control" name="pedido_gerado" value="${pedido_id}" required minlength="3" maxlength="80"> 
                         <div id="teste" class="form-group">
-                            <li class="list-group-item">Itens</li>
+                            <li class="list-group-item" style="display: none;">Itens do Pedido</li>
                         </div>
-
-                        <button form="formPedidos" type="submit" class="btn btn-success">Finalizar Pedido</button>
-                        <a class="btn btn-danger" href="${pageContext.request.contextPath}/pedidos/list" role="button" style="float: right">Voltar</a>
+                        <button form="formPedidos" type="submit" class="btn btn-success" style="float: right">Finalizar Pedido</button>
                     </form>
+                    <button onclick="remIten(this)" class="btn btn-danger" data-catid="${produto.id}">Limpar Itens</button>
                     
                 </table>
             </div>

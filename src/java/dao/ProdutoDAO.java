@@ -24,7 +24,7 @@ public class ProdutoDAO {
     private final String selectProduto = "SELECT id, descricao FROM produto WHERE id = ?;";
     private final String updateProduto = "UPDATE produto SET descricao = ? WHERE id = ?;";
     private final String deleteProduto = "DELETE FROM produto WHERE id = ? AND id NOT IN (SELECT id_produto FROM item_do_pedido);";
-    private final String selectListaProduto = "SELECT id, descricao FROM produto LIMIT 8;";
+    private final String selectListaProduto = "SELECT id, descricao FROM produto LIMIT 15;";
     private final String countProduto = "SELECT COUNT(*) FROM produto";
     private final String searchProdutoByDesc = "SELECT id, descricao FROM produto WHERE descricao LIKE ?;";
     
