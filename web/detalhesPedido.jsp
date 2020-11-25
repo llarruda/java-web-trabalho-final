@@ -97,7 +97,7 @@
                     <c:forEach var="pedido" items="${lista}">
                         <tr>
                             <td>${pedido.id}</td>
-                            <td id="mask">${pedido.data}</td>
+                            <td id="mask" class="rawDate">${pedido.data}</td>
                             <td class="cpf">${pedido.getCliente().getCpf()}</td>
                             <td>${pedido.getCliente().getNome()} ${pedido.getCliente().getSobreNome()}</td>
                             <td>
