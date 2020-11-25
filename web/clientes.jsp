@@ -82,6 +82,12 @@
                     </div>
                     <c:remove var="cpfNotFound" scope="session"/>
                 </c:if>
+                <c:if test="${possuiPedido == true}">
+                    <div class="alert alert-danger" role="alert">
+                        O cliente possui pedidos. Para remover o cliente todos os pedidos devem ser deletados antes.
+                    </div>
+                    <c:remove var="possuiPedido" scope="session"/>
+                </c:if>
                 <table class="table table-bordered">
                     <tr>
                         <th scope="col" style="width: 1%">ID</th>

@@ -75,8 +75,8 @@ public class ClienteServlet extends HttpServlet {
                     buscarClientePorCpf(request, response);
                     break;
                 default:
-                    // listarCliente(request, response);
-                    response.sendRedirect(request.getContextPath() + "/home");
+                    listarCliente(request, response);
+                    //response.sendRedirect(request.getContextPath() + "/home");
                     break;
             }
             // TRATAR EXCEÇÃO    
@@ -212,10 +212,16 @@ public class ClienteServlet extends HttpServlet {
             throws ServletException, IOException {
 
         int id = Integer.parseInt(request.getParameter("id"));
-        cf.deletar(id);
-
-        boolean excluir = true;
-        request.getSession().setAttribute("excluirmsg", excluir);
+        
+        try {
+            cf.deletar(id);
+            boolean excluir = true;
+            request.getSession().setAttribute("excluirmsg", excluir);
+        } catch (Exception e) {
+            System.out.println(e);
+            boolean possuiPedido = true;
+            request.getSession().setAttribute("possuiPedido", possuiPedido);
+        }
 
         response.sendRedirect("clientes");
     }
